@@ -1,0 +1,57 @@
+output_image: pyramid.jpg
+film_resolution: 1024 768
+
+camera_fwd: -1 0 0
+camera_up: 0 1 0
+camera_pos: -3 1 0
+
+# top point of the pyramid
+vertex: 0 1 0
+# bottom corners of the pyramid
+vertex: 1 0 0
+vertex: 0 0 1
+vertex: -1 0 0
+vertex: 0 0 -1
+
+# ground
+vertex: -100 0 -100
+vertex: -100 0 100
+vertex: 1000 0 0
+
+# normal for top point
+normal: 0 1 0
+# normals for bottom corners
+normal: 1 0 0
+normal: 0 0 1
+normal: -1 0 0
+normal: 0 0 -1
+
+# normal for ground
+normal: 0 1 0
+
+# faces of pyramid
+material: 1 0 0 1 0 0.3 0.3 0.3 0 16 0 0 0 1
+# triangle: 0 1 4
+normal_triangle: 0 1 4 0 1 4
+
+material: 0 1 0 0 1 0 0.3 0.3 0.3 16 0 0 0 1
+# triangle: 0 2 1
+normal_triangle: 0 2 1 0 2 1
+
+material: 0 0 1 0 0 1 0.3 0.3 0.3 16 0 0 0 1
+# triangle: 0 3 2
+normal_triangle: 0 3 2 0 3 2
+
+material: 1 1 0 1 1 0 0.3 0.3 0.3 16 0 0 0 1
+# triangle: 0 4 3
+normal_triangle: 0 4 3 0 4 3
+
+# ground triangle
+material: 0.5 0.5 0.5 0.5 0.5 0.5 1 1 1 16 0 0 0 1
+# triangle: 5 6 7
+normal_triangle: 5 6 7 5 5 5
+
+# ambient_light: 0.1 0.1 0.1
+# point_light: 3 3 3 0 1.5 0
+directional_light: 10 10 10 2 -1 1
+background: 0 0.5 1

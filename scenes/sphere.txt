@@ -1,0 +1,36 @@
+# Testing for a single sphere
+# comment
+background: 0 0 0
+material: 0 1 1 0 1 1 1 1 1 16 0 0 0 1 
+
+ambient_light: 0.2 0.2 0.2
+point_light: 0.2 0.2 0.2 0 0.4 -0.6
+# point_light: 0 0 0 1 1 1
+directional_light: 2 2 2 1 -1 0 
+
+sphere: 0 -0 0 0.3
+camera_up: 0 1 0
+camera_fwd: 0 0.1 -1
+camera_pos: 0 0.3 -1.5 
+
+camera_fov_ha: 20
+
+output_image: 1sphere.tga
+
+vertex: 0 0 0
+vertex: 1 0 0
+vertex: 0 1 0
+
+normal: 1 0 0
+normal: 0 1 1
+normal: 3 3 3
+
+material: 1 1 1 1 1 1 0.6 0.6 0.6 5 0 0 0 1
+
+triangle: 0 1 2
+triangle: 2 1 0
+
+normal_triangle: 0 1 2 0 1 2
+normal_triangle: 0 1 2 2 1 0
+
+film_resolution: 500 500

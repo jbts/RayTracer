@@ -1,0 +1,34 @@
+# Sample input file for testing
+
+film_resolution: 1028 768
+
+camera_pos: 0 -3 10
+camera_up: 0 1 0 
+camera_fwd: 0 -0.3 1
+camera_fov_ha: 15
+max_depth: 10
+# sample_jitter: 10
+
+material: 0.5 0 0.7 0.5 0 0.7 0.3 0.3 0.3 5 0 0 0 1
+# sphere: 0.5 0 3 0.5
+sphere: -1 1 -5 2
+
+material: 0 1 0 0 1 0 0.3 0.3 0.3 5 0 0 0 1
+# sphere: -1 1 -50 2
+sphere: 0.5 0 -4 0.5
+
+material: 1 1 0 1 1 0 0.7 0.7 0.7 5 0 0 0 1
+sphere: 0 0.8 -2 0.7
+
+material: 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 5 0 0 0 1
+sphere: 10 0 -5 8
+
+ambient_light: 0.4 0.4 0.4
+# point_light: 1 1 1 0 0 -1
+directional_light: 0.7 0.7 0.7 1 -1 0
+directional_light: 0.3 0.3 0.3 -1 1 1
+
+# spot_light: 5 5 5 0 0 0 1 0 0 45 60
+
+background: 0.1 0.1 0.1
+output_image: out.bmp
