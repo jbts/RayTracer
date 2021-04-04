@@ -20,7 +20,7 @@ of different cool features, like
 - Shadows
 - Reflections to a bounded depth
 - A bounding volume hierarchy (BVH) and parallelism with OpenMP for tracing acceleration
-- PNG, JPG, BMP, and TGA output (with the `stb_image_write` library)
+- PNG, JPG, BMP, and TGA output (with the [stb\_image\_write](https://github.com/nothings/stb) library)
 - Jittered supersampling (multiple samples per pixel for improved image quality)
 
 ## Using the Raytracer
