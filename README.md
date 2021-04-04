@@ -1,5 +1,7 @@
 # Riley's Raytracer
 
+![WatchBlueAndGold](images/Challenge/watch_blue_and_gold.png)
+
 ## Overview
 
 This is a raytracer that I built in a graphics class during my final semester
@@ -34,9 +36,8 @@ top-level repository directory (where this README is).
 mkdir build
 cd build
 cmake -E env CXXFLAGS="-O3" cmake ../code # turn on aggressive compiler optimization
-make # depending on what system you're using, CMake may generate a Makefile
-     # or some other way to build the code
-./ray <cool-scene-file.txt>
+make # depending on what system you're using, CMake may generate a Makefile or some other way to build the code
+./ray scene_file.txt
 ```
 
 This project was built and tested on Ubuntu 18.04, so I don't know how it runs
