@@ -66,43 +66,58 @@ std::vector<PixelTraceData> ViewFrame::SamplePointsBasic() const {
   std::vector<PixelTraceData> trace_data_list;
   Point3 frame_top_left = FrameTopLeft();
 
+  // The weight for each ray is just 1.0
+  std::vector<float> weights;
+  weights.push_back(1.0f);
+
+  std::vector<Point3> targets;
+
   for (int y = 0; y < height_; y++) {
+    Vector3 to_y = -(y + 0.5) * up_;
     for (int x = 0; x < width_; x++) {
-      Point3 pixel_center = frame_top_left + (x + 0.5) * right_ + -(y + 0.5) * up_;
+      Point3 pixel_center = frame_top_left + (x + 0.5) * right_ + to_y;
+      
       // Each pixel has a single target in its center
-      std::vector<Point3> targets;
-      std::vector<float> weights;
       targets.push_back(pixel_center);
-      weights.push_back(1.0f);
 
       PixelTraceData trace_data(x, y, targets, weights);
       trace_data_list.push_back(trace_data);
+
+      targets.clear();
     }
   }
+
   return trace_data_list;
 }
 
 std::vector<PixelTraceData> ViewFrame::SamplePointsJittered() const {
-  Point3 frame_top_left = FrameTopLeft();
   std::vector<PixelTraceData> trace_data_list;
+  Point3 frame_top_left = FrameTopLeft();
+
+  float ray_weight = 1 / (float)num_jitter_samples_;
+
+  std::vector<float> weights;
+  for (int i = 0; i < num_jitter_samples_; i++) {
+    weights.push_back(ray_weight);
+  }
+
+  std::vector<Point3> targets;
 
   for (int y = 0; y < height_; y++) {
+    Vector3 to_y = -y * up_;
     for (int x = 0; x < width_; x++) {
-      Point3 pixel_top_left = frame_top_left + x * right_ + -y * up_;
-      std::vector<Point3> targets;
-      std::vector<float> weights;
-
+      Point3 pixel_top_left = frame_top_left + x * right_ + to_y;
       for (int i = 0; i < num_jitter_samples_; i++) {
         float x_jitter = rand() / (float)RAND_MAX;
         float y_jitter = rand() / (float)RAND_MAX;
 
         Point3 point_jitter = pixel_top_left + x_jitter * right_ + -y_jitter * up_;
         targets.push_back(point_jitter);
-        weights.push_back(1 / (float)num_jitter_samples_);
       }
 
       PixelTraceData trace_data(x, y, targets, weights);
       trace_data_list.push_back(trace_data);
+      targets.clear();
     }
   }
 
