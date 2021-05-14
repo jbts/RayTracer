@@ -23,7 +23,7 @@ Color PointLight::ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int de
   Ray shadow_ray = Ray(intersection_point + 0.0001 * normal, to_light_unit);
 
   HitInfo shadow_hit_info = scene.FindClosestIntersection(shadow_ray);
-  bool in_shadow = shadow_hit_info.DidIntersect();
+  bool in_shadow = shadow_hit_info.DidIntersect() && shadow_hit_info.Time() < to_light.Mag();
 
   Color reflect_color = Color(0, 0, 0);
   if (depth_left > 0) {
