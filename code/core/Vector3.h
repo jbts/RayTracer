@@ -26,23 +26,23 @@ class Vector3 {
 };
 
 /// Compute the dot product of two vectors
-float Dot(Vector3 v, Vector3 w);
+float Dot(const Vector3& v, const Vector3& w);
 
 /// Compute the cross product of two vectors
-Vector3 Cross(Vector3 v, Vector3 w);
+Vector3 Cross(const Vector3& v, const Vector3& w);
 
 /// Multiply a float and a vector
-Vector3 operator*(float s, Vector3 v);
+Vector3 operator*(float s, const Vector3& v);
 /// Multiply a vector and a float
-Vector3 operator*(Vector3 v, float s);
+Vector3 operator*(const Vector3& v, float s);
 
 /// Add two vectors
-Vector3 operator+(Vector3 v, Vector3 w);
+Vector3 operator+(const Vector3& v, const Vector3& w);
 /// Subtract two vectors
-Vector3 operator-(Vector3 v, Vector3 w);
+Vector3 operator-(const Vector3& v, const Vector3& w);
 
 /// Converts a vector to a string describing the vector
 /// Useful for output and debugging
-std::string ToString(Vector3 v);
+std::string ToString(const Vector3& v);
 
 #endif
