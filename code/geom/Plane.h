@@ -22,15 +22,15 @@ class Plane : public Primitive {
 
   public:
     Plane() : p_(0, 0, 0), normal_(0, 1, 0), m_() {}
-    Plane(Point3 p, Vector3 normal, Material m);
+    Plane(const Point3& p, const Vector3& normal, const Material& m);
 
-    HitInfo FindIntersection(Ray ray) const override;
+    HitInfo FindIntersection(const Ray& ray) const override;
 
     /// Check whether the plane contains the given point
-    bool Contains(Point3 p) const;
+    bool Contains(const Point3& p) const;
 };
 
 /// Get the plane containing all three points of the given triangle
-Plane PlaneContaining(Triangle tri);
+Plane PlaneContaining(const Triangle& tri);
 
 #endif

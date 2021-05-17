@@ -15,7 +15,7 @@ class HitInfo {
 
   public:
     HitInfo();
-    HitInfo(bool did_intersect, float time, Vector3 normal, Material material, unsigned long primitive_id);
+    HitInfo(bool did_intersect, float time, const Vector3& normal, const Material& material, unsigned long primitive_id);
 
     /// Whether there was an intersection or not. If this evaluates to false,
     /// then the rest of the data in the HitInfo object aren't meaningful.

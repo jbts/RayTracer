@@ -14,13 +14,13 @@ Sphere::Sphere() {
   m_ = Material();
 }
 
-Sphere::Sphere(Point3 pos, float r, Material m) {
+Sphere::Sphere(const Point3& pos, float r, const Material& m) {
   pos_ = pos;
   r_ = r;
   m_ = m;
 }
 
-HitInfo Sphere::FindIntersection(Ray ray) const {
+HitInfo Sphere::FindIntersection(const Ray& ray) const {
   Vector3 center_to_start = ray.Start() - pos_;
   Vector3 v = ray.Dir();
 

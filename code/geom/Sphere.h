@@ -15,13 +15,13 @@ class Sphere : public Primitive {
 
   public:
     Sphere();
-    Sphere(Point3 pos, float r, Material m);
+    Sphere(const Point3& pos, float r, const Material& m);
 
     Point3 Pos() const { return pos_; }
     float Radius() const { return r_; }
     Material GetMaterial() const { return m_; }
 
-    HitInfo FindIntersection(Ray ray) const override;
+    HitInfo FindIntersection(const Ray& ray) const override;
 };
 
 #endif

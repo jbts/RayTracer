@@ -8,13 +8,13 @@
 #include "geom/Ray.h"
 #include "light/Material.h"
 
-Plane::Plane(Point3 p, Vector3 normal, Material m) {
+Plane::Plane(const Point3& p, const Vector3& normal, const Material& m) {
   p_ = p;
   normal_ = normal.Normalized();
   m_ = m;
 }
 
-HitInfo Plane::FindIntersection(Ray ray) const {
+HitInfo Plane::FindIntersection(const Ray& ray) const {
   Vector3 v = ray.Dir();
   Vector3 start_to_plane = p_ - ray.Start();
 
@@ -34,13 +34,13 @@ HitInfo Plane::FindIntersection(Ray ray) const {
   return HitInfo(true, t, normal_, m_, ID());
 }
 
-bool Plane::Contains(Point3 p) const {
+bool Plane::Contains(const Point3& p) const {
   Vector3 v = p - p_;
   
   return fabs(Dot(v, normal_)) <= contains_tolerance_;
 }
 
-Plane PlaneContaining(Triangle tri) {
+Plane PlaneContaining(const Triangle& tri) {
   Vector3 v1 = tri.Vertex2() - tri.Vertex1();
   Vector3 v2 = tri.Vertex3() - tri.Vertex1();
   Vector3 normal = Cross(v1, v2).Normalized();
