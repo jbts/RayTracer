@@ -18,13 +18,13 @@ class PointLight : public Light {
 
   public:
     PointLight() : pos_(0, 0, 0), i_(0, 0, 0) {}
-    PointLight(Point3 pos, Intensity intensity) : pos_(pos), i_(intensity) {}
+    PointLight(const Point3& pos, const Intensity& intensity) : pos_(pos), i_(intensity) {}
 
     Point3 Pos() const { return pos_; }
     Intensity GetIntensity() const { return i_; }
 
     /// Compute the color contribution of this point light at a point of intersection
-    Color ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const override;
+    Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 
     /// Compute the intensity of this light at the specified distance
     /// In the real world, these lights fall off as 1/(dist^2)

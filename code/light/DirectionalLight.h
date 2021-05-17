@@ -20,13 +20,13 @@ class DirectionalLight : public Light {
   
   public:
     DirectionalLight() : dir_(1, 0, 0), i_(0, 0, 0) {}
-    DirectionalLight(Vector3 dir, Intensity intensity) : dir_(dir), i_(intensity) {}
+    DirectionalLight(const Vector3& dir, const Intensity& intensity) : dir_(dir), i_(intensity) {}
 
     Vector3 Dir() const { return dir_; }
     Intensity GetIntensity() const { return i_; }
 
     /// Compute the color contribution of this directional light at a point of intersection
-    Color ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const override;
+    Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 };
 
 #endif

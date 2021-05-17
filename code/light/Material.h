@@ -15,8 +15,8 @@ class Material {
   
   public:
     Material();
-    Material(Color color_ambient, Color color_diffuse, Color color_specular,
-             float phong_power, Color color_transmissive, float index_of_refraction);
+    Material(const Color& color_ambient, const Color& color_diffuse, const Color& color_specular,
+             float phong_power, const Color& color_transmissive, float index_of_refraction);
     
     Color ColorAmbient() const { return color_amb_; }
     Color ColorDiffuse() const { return color_diff_; }

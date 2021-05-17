@@ -9,7 +9,7 @@
 #include "light/Shading.h"
 #include "spatial/Scene.h"
 
-Color PointLight::ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const {
+Color PointLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const {
   Point3 intersection_point = ray.AtTime(hit_info.Time());
   // Note: _not_ normalized
   Vector3 to_light = Pos() - intersection_point;

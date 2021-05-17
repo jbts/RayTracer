@@ -23,7 +23,7 @@ class SpotLight : public Light {
   
   public:
     SpotLight() : pos_(0, 0, 0), dir_(1, 0, 0), i_(0, 0, 0), start_fall_angle_(0), end_fall_angle_(0) {}
-    SpotLight(Point3 pos, Vector3 dir, Intensity intensity, float start_fall_angle, float end_fall_angle) :
+    SpotLight(const Point3& pos, const Vector3& dir, const Intensity& intensity, float start_fall_angle, float end_fall_angle) :
               pos_(pos), dir_(dir), i_(intensity), start_fall_angle_(start_fall_angle), end_fall_angle_(end_fall_angle) {}
 
     Point3 Pos() const { return pos_; }
@@ -34,7 +34,7 @@ class SpotLight : public Light {
 
     /// ======= Unimplemented =======
     /// Right now this is a placeholder function always returning black
-    Color ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const override;
+    Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 };
 
 #endif

@@ -26,7 +26,7 @@ class Light {
     /// Compute the color contribution of this light based on the viewing ray, intersection info, and scene data
     /// A pure virtual function that must be implemented by children
     /// depth_left is a bound on the number of recursive calls allowed: each recursive call should subtract 1 from depth_left
-    virtual Color ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const = 0;
+    virtual Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const = 0;
 };
 
 #endif

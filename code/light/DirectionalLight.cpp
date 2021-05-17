@@ -9,7 +9,7 @@
 #include "light/Shading.h"
 #include "spatial/Scene.h"
 
-Color DirectionalLight::ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const {
+Color DirectionalLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const {
   Vector3 normal = hit_info.Normal().Normalized();
   // to_light is the same at every point in space for a directional light
   Vector3 to_light = (-1 * dir_).Normalized();

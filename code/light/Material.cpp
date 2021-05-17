@@ -10,8 +10,8 @@ Material::Material() {
     ior_ = 1;
 }
 
-Material::Material(Color color_ambient, Color color_diffuse, Color color_specular,
-                   float phong_power, Color color_transmissive, float index_of_refraction) {
+Material::Material(const Color& color_ambient, const Color& color_diffuse, const Color& color_specular,
+                   float phong_power, const Color& color_transmissive, float index_of_refraction) {
   color_amb_ = color_ambient;
   color_diff_ = color_diffuse;
   color_spec_ = color_specular;
