@@ -16,7 +16,7 @@ struct ParseError {
   std::string msg;
   int lineno;
 
-  ParseError(std::string message, int linenum) {
+  ParseError(const std::string& message, int linenum) {
     msg = message;
     lineno = linenum;
   }
@@ -37,11 +37,11 @@ class Parser {
     
     /// Parse a file and return a SceneData object with information about the
     /// scene described in the file
-    SceneData ParseFile(std::string filename);
+    SceneData ParseFile(const std::string& filename);
 
     /// Set the delimiter(s) for parsing
     /// The delimiter defaults to a space " "
-    void SetDelim(std::string delim) { delim_ = delim; }
+    void SetDelim(const std::string& delim) { delim_ = delim; }
 
     /// Set the maximum line length allowed in the input file
     void SetMaxLineLen(size_t max_line_len) { max_line_len_ = max_line_len; }

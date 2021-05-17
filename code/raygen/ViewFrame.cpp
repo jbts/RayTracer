@@ -32,7 +32,7 @@ ViewFrame::ViewFrame() {
   sample_strat_ = SAMPLE_STRATEGY_BASIC;
 }
 
-ViewFrame::ViewFrame(int width, int height, Point3 eye_pos, Vector3 up, Vector3 forward, Vector3 right, float half_angle_fov) {
+ViewFrame::ViewFrame(int width, int height, const Point3& eye_pos, const Vector3& up, const Vector3& forward, const Vector3& right, float half_angle_fov) {
   width_ = width;
   height_ = height;
   eye_pos_ = eye_pos;

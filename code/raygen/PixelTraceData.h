@@ -15,7 +15,7 @@ class PixelTraceData {
   
   public:
     PixelTraceData() : x_(0), y_(0), targets_(), weights_() {}
-    PixelTraceData(int x, int y, std::vector<Point3> targets, std::vector<float> weights) : x_(x), y_(y), targets_(targets), weights_(weights) {}
+    PixelTraceData(int x, int y, const std::vector<Point3>& targets, const std::vector<float>& weights) : x_(x), y_(y), targets_(targets), weights_(weights) {}
 
     int X() const { return x_; }
     int Y() const { return y_; }

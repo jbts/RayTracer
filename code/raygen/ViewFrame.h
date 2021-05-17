@@ -46,7 +46,7 @@ class ViewFrame {
     int num_jitter_samples_ = 5;
   public:
     ViewFrame();
-    ViewFrame(int width, int height, Point3 eye_pos, Vector3 up, Vector3 forward, Vector3 right, float half_angle_fov);
+    ViewFrame(int width, int height, const Point3& eye_pos, const Vector3& up, const Vector3& forward, const Vector3& right, float half_angle_fov);
 
     /// Set the sampling strategy to be used for sampling points and generating rays
     void SetSampleStrategy(SampleStrategy strat);
