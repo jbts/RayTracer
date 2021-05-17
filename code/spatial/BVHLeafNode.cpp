@@ -3,6 +3,6 @@
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 
-HitInfo BVHLeafNode::FindClosestIntersection(Ray ray) const {
+HitInfo BVHLeafNode::FindClosestIntersection(const Ray& ray) const {
   return primitive_->FindIntersection(ray);
 }

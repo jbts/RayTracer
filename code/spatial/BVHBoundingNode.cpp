@@ -3,7 +3,7 @@
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 
-bool BVHBoundingNode::RayIntersectsBounds(Ray ray) const {
+bool BVHBoundingNode::RayIntersectsBounds(const Ray& ray) const {
   Point3 start = ray.Start();
   Vector3 dir = ray.Dir();
 
@@ -38,7 +38,7 @@ bool BVHBoundingNode::RayIntersectsBounds(Ray ray) const {
   return std::max(std::max(tminx, tminy), tminz) <= std::min(std::min(tmaxx, tmaxy), tmaxz);
 }
 
-HitInfo BVHBoundingNode::FindClosestIntersection(Ray ray) const {
+HitInfo BVHBoundingNode::FindClosestIntersection(const Ray& ray) const {
   if (!RayIntersectsBounds(ray)) {
     return HitInfo::NoHit();
   }
