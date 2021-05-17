@@ -22,22 +22,22 @@ class Color {
 float ColorCompClamp(float comp);
 
 /// Linearly interpolate between two colors
-Color ColorLerp(Color start, Color target, float t);
+Color ColorLerp(const Color& start, const Color& target, float t);
 
 /// Add two colors in a component-wise fashion
 /// Useful for lighting calculations
-Color operator+(Color c, Color d);
+Color operator+(const Color& c, const Color& d);
 
 /// Multiply a color by a scalar in a component-wise fashion
 /// Useful for lighting calculations
-Color operator*(Color c, float s);
+Color operator*(const Color& c, float s);
 
 /// Multiply a color by a scalar in a component-wise fashion
 /// Useful for lighting calculations
-Color operator*(float s, Color c);
+Color operator*(float s, const Color& c);
 
 /// Convert a color to a string describing the color
 /// Useful for output and debugging
-std::string ToString(Color c);
+std::string ToString(const Color& c);
 
 #endif

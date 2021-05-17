@@ -11,7 +11,7 @@ HitInfo::HitInfo() {
   primitive_id_ = -1;
 }
 
-HitInfo::HitInfo(bool did_intersect, float time, Vector3 normal, Material material, unsigned long primitive_id) {
+HitInfo::HitInfo(bool did_intersect, float time, const Vector3& normal, const Material& material, unsigned long primitive_id) {
     did_intersect_ = did_intersect;
     time_ = time;
     normal_ = normal;

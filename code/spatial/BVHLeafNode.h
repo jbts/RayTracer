@@ -14,7 +14,7 @@ class BVHLeafNode : public BVHNode {
 
   public:
     BVHLeafNode(Primitive* primitive) : primitive_(primitive) {}
-    HitInfo FindClosestIntersection(Ray ray) const override;
+    HitInfo FindClosestIntersection(const Ray& ray) const override;
 };
 
 #endif

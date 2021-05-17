@@ -41,12 +41,12 @@ class Triangle : public Primitive {
     static std::vector<Point3> vertices_;
 
   public:
-    Triangle(int v1_index, int v2_index, int v3_index, Material m);
+    Triangle(int v1_index, int v2_index, int v3_index, const Material& m);
 
-    HitInfo FindIntersection(Ray ray) const override;
+    HitInfo FindIntersection(const Ray& ray) const override;
 
     /// Add a vertex to the end of the vertex list
-    static void AddVertex(Point3 vertex);
+    static void AddVertex(const Point3& vertex);
 
     Point3 Vertex1() const;
     Point3 Vertex2() const;
@@ -58,15 +58,15 @@ class Triangle : public Primitive {
     float Area() const;
 
     /// Check whether the triangle contains the given point
-    bool Contains(Point3 p) const;
+    bool Contains(const Point3& p) const;
 
     /// Find the barycentric coordinates of the given point
     /// The returned coordinates line up as you might expect:
     /// Coord1() -> Vertex1(), Coord2() -> Vertex2(), Coord3() -> Vertex3()
-    BaryCoords FindBaryCoords(Point3 p) const;
+    BaryCoords FindBaryCoords(const Point3& p) const;
 };
 
 /// Find the area of the triangle spanned by the three given points
-float TriangleArea(Point3 t1, Point3 t2, Point3 t3);
+float TriangleArea(const Point3& t1, const Point3& t2, const Point3& t3);
 
 #endif

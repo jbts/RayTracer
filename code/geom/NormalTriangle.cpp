@@ -11,13 +11,13 @@
 
 std::vector<Vector3> NormalTriangle::normals_ = std::vector<Vector3>();
 
-NormalTriangle::NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, Material m) : Triangle(v1_index, v2_index, v3_index, m) {
+NormalTriangle::NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, const Material& m) : Triangle(v1_index, v2_index, v3_index, m) {
   n1_index_ = n1_index;
   n2_index_ = n2_index;
   n3_index_ = n3_index;
 }
 
-void NormalTriangle::AddNormal(Vector3 normal) {
+void NormalTriangle::AddNormal(const Vector3& normal) {
   normals_.push_back(normal);
 }
 
@@ -35,7 +35,7 @@ Vector3 NormalTriangle::Normal3() const {
 
 // Very similar to Triangle::FindIntersection()
 // Differs in how we compute the normal at the point of intersection
-HitInfo NormalTriangle::FindIntersection(Ray ray) const {
+HitInfo NormalTriangle::FindIntersection(const Ray& ray) const {
   Plane plane = PlaneContaining(*this);
   HitInfo hit_info_plane = plane.FindIntersection(ray);
   // If the ray doesn't hit the plane containing the triangle, then it doesn't hit the triangle

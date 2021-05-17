@@ -12,7 +12,7 @@
 /// to_light is a unit vector pointing from the intersection to the light
 /// intensity is the intensity of the light at the intersection
 /// mat is the material of the surface at the intersection
-Color ComputeDiffuseShading(Vector3 normal, Vector3 to_light, Intensity intensity, Material mat);
+Color ComputeDiffuseShading(const Vector3& normal, const Vector3& to_light, const Intensity& intensity, const Material& mat);
 
 /// Compute the color contribution of specular reflection due to a light shining on a point of intersection
 /// Uses the Phong model
@@ -21,7 +21,7 @@ Color ComputeDiffuseShading(Vector3 normal, Vector3 to_light, Intensity intensit
 /// light_reflected is the unit direction of the reflected light at the intersection
 /// intensity is the intensity of the light at the intersection
 /// mat is the material of the surface at the intersection
-Color ComputeSpecularShadingPhong(Vector3 dir, Vector3 light_reflected, Intensity intensity, Material mat);
+Color ComputeSpecularShadingPhong(const Vector3& dir, const Vector3& light_reflected, const Intensity& intensity, const Material& mat);
 
 /// Compute the color contribution of specular reflection due to a light shining on a point of intersection
 /// Uses the Blinn-Phong model
@@ -31,6 +31,6 @@ Color ComputeSpecularShadingPhong(Vector3 dir, Vector3 light_reflected, Intensit
 /// to_light is a unit vector pointing from the intersection to the light
 /// intensity is the intensity of the light at the intersection
 /// mat is the material of the surface at the intersection
-Color ComputeSpecularShadingBlinnPhong(Vector3 dir, Vector3 normal, Vector3 to_light, Intensity intensity, Material mat);
+Color ComputeSpecularShadingBlinnPhong(const Vector3& dir, const Vector3& normal, const Vector3& to_light, const Intensity& intensity, const Material& mat);
 
 #endif

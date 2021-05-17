@@ -15,7 +15,7 @@ class BVHBoundingNode : public BVHNode {
     Point3 min_corner_;
     Point3 max_corner_;
   public:
-    BVHBoundingNode(BVHNode* left_child, BVHNode* right_child, Point3 min_corner, Point3 max_corner) : left_child_(left_child), right_child_(right_child), min_corner_(min_corner), max_corner_(max_corner) {}
+    BVHBoundingNode(BVHNode* left_child, BVHNode* right_child, const Point3& min_corner, const Point3& max_corner) : left_child_(left_child), right_child_(right_child), min_corner_(min_corner), max_corner_(max_corner) {}
 
     /// Check whether the given ray intersects this node's bounding box
     /// Uses the "slab method", which is an efficient method for checking
@@ -29,8 +29,8 @@ class BVHBoundingNode : public BVHNode {
     /// https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-box-intersection
     ///
     /// I've rephrased the algorithm "in my own words"
-    bool RayIntersectsBounds(Ray ray) const;
-    HitInfo FindClosestIntersection(Ray ray) const override;
+    bool RayIntersectsBounds(const Ray& ray) const;
+    HitInfo FindClosestIntersection(const Ray& ray) const override;
 };
 
 #endif

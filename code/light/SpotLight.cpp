@@ -7,6 +7,6 @@
 #include "geom/HitInfo.h"
 #include "spatial/Scene.h"
 
-Color SpotLight::ComputeLighting(Ray ray, HitInfo hit_info, Scene scene, int depth_left) const {
+Color SpotLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const {
   return Color(0, 0, 0);
 }

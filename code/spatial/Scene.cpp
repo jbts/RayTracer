@@ -8,7 +8,7 @@
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 
-Scene::Scene(Color background_color, std::vector<Sphere*> spheres, std::vector<Triangle*> triangles) {
+Scene::Scene(const Color& background_color, const std::vector<Sphere*>& spheres, const std::vector<Triangle*>& triangles) {
   background_color_ = background_color;
   for (Sphere* sphere : spheres) {
     primitives_.push_back(sphere);
@@ -40,11 +40,11 @@ HitInfo Scene::FindClosestIntersection(Ray ray) const {
 }
 */
 
-HitInfo Scene::FindClosestIntersection(Ray ray) const {
+HitInfo Scene::FindClosestIntersection(const Ray& ray) const {
   return bvh_root->FindClosestIntersection(ray);
 }
 
-HitInfo Scene::FindClosestIntersection(Ray ray, std::vector<unsigned long> exclude_ids) {
+HitInfo Scene::FindClosestIntersection(const Ray& ray, const std::vector<unsigned long>& exclude_ids) {
   HitInfo stored_hit_info = HitInfo::NoHit();
 
   for (Primitive* primitive : primitives_) {

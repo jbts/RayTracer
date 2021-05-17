@@ -24,7 +24,7 @@ std::string Log::LevelToString(LogLevel level) {
   return "Unknown";
 }
 
-void Log::Write(LogLevel level, std::string msg) {
+void Log::Write(LogLevel level, const std::string& msg) {
   if (level >= curr_level_) {
     std::cout << "[" << LevelToString(level) << "]" << " " << msg << "\n";
   }
@@ -34,22 +34,22 @@ void Log::SetLevel(LogLevel level) {
   curr_level_ = level;
 };
 
-void Log::Debug(std::string msg) {
+void Log::Debug(const std::string& msg) {
   Write(LOG_LEVEL_DEBUG, msg);
 }
 
-void Log::Info(std::string msg) {
+void Log::Info(const std::string& msg) {
   Write(LOG_LEVEL_INFO, msg);
 }
 
-void Log::Warning(std::string msg) {
+void Log::Warning(const std::string& msg) {
   Write(LOG_LEVEL_WARNING, msg);
 }
 
-void Log::Error(std::string msg) {
+void Log::Error(const std::string& msg) {
   Write(LOG_LEVEL_ERROR, msg);
 }
 
-void Log::Fatal(std::string msg) {
+void Log::Fatal(const std::string& msg) {
   Write(LOG_LEVEL_FATAL, msg);
 }

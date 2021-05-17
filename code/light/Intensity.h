@@ -24,19 +24,19 @@ class Intensity {
 /// Multiply a color by an intensity in a component-wise fashion
 /// The result is a color
 /// Useful for lighting computations
-Color operator*(Intensity i, Color c);
+Color operator*(const Intensity& i, const Color& c);
 
 /// Multiply a color by an intensity in a component-wise fashion
 /// The result is a color
 /// Useful for lighting computations
-Color operator*(Color c, Intensity i);
+Color operator*(const Color& c, const Intensity& i);
 
 /// Multiply an intensity by a scalar in a component-wise fashion
 /// Useful for lighting computations
-Intensity operator*(Intensity i, float s);
+Intensity operator*(const Intensity& i, float s);
 
 /// Multiply an intensity by a scalar in a component-wise fashion
 /// Useful for lighting computations
-Intensity operator*(float s, Intensity i);
+Intensity operator*(float s, const Intensity& i);
 
 #endif

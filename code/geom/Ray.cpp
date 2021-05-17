@@ -8,7 +8,7 @@ Ray::Ray() {
   dir_ = Vector3(0, 0, 1).Normalized();
 }
 
-Ray::Ray(Point3 start, Vector3 dir) {
+Ray::Ray(const Point3& start, const Vector3& dir) {
   start_ = start;
   dir_ = dir.Normalized();
 }

@@ -19,15 +19,15 @@ class Log {
     static std::string LevelToString(LogLevel level);
     
   public:
-    static void Write(LogLevel level, std::string msg);
+    static void Write(LogLevel level, const std::string& msg);
     static void SetLevel(LogLevel level);
 
     // Aliases for calls to Write(level, ...)
-    static void Debug(std::string msg);
-    static void Info(std::string msg);
-    static void Warning(std::string msg);
-    static void Error(std::string msg);
-    static void Fatal(std::string msg);
+    static void Debug(const std::string& msg);
+    static void Info(const std::string& msg);
+    static void Warning(const std::string& msg);
+    static void Error(const std::string& msg);
+    static void Fatal(const std::string& msg);
 };
 
 #endif

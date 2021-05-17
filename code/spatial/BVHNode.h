@@ -12,7 +12,7 @@
 /// BVH tree
 class BVHNode {
   public:
-    virtual HitInfo FindClosestIntersection(Ray ray) const = 0;
+    virtual HitInfo FindClosestIntersection(const Ray& ray) const = 0;
 };
 
 BVHNode* ConstructBVH(std::vector<Sphere*> spheres, std::vector<Triangle*> triangles);

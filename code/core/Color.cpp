@@ -14,7 +14,7 @@ float ColorCompClamp(float comp) {
   return comp;
 }
 
-Color ColorLerp(Color start, Color target, float t) {
+Color ColorLerp(const Color& start, const Color& target, float t) {
   float new_r = start.R() * (1 - t) + target.R() * t;
   float new_g = start.G() * (1 - t) + target.G() * t;
   float new_b = start.B() * (1 - t) + target.B() * t;
@@ -22,18 +22,18 @@ Color ColorLerp(Color start, Color target, float t) {
   return Color(new_r, new_g, new_b);
 }
 
-Color operator+(Color c, Color d) {
+Color operator+(const Color& c, const Color& d) {
   return Color(c.R()+d.R(), c.G()+d.G(), c.B()+d.B());
 }
 
-Color operator*(Color c, float s) {
+Color operator*(const Color& c, float s) {
   return Color(c.R()*s, c.G()*s, c.B()*s);
 }
 
-Color operator*(float s, Color c) {
+Color operator*(float s, const Color& c) {
   return Color(s*c.R(), s*c.G(), s*c.B());
 }
 
-std::string ToString(Color c) {
+std::string ToString(const Color& c) {
   return "(" + std::to_string(c.R()) + ", " + std::to_string(c.G()) + ", " + std::to_string(c.B()) + ")";
 }

@@ -20,10 +20,10 @@ class NormalTriangle : public Triangle {
     static std::vector<Vector3> normals_;
   
   public:
-    NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, Material m);
+    NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, const Material& m);
     
     /// Add a normal to the end of the normal list
-    static void AddNormal(Vector3 normal);
+    static void AddNormal(const Vector3& normal);
 
     /// Get the normal corresponding to Vertex1()
     Vector3 Normal1() const;
@@ -34,7 +34,7 @@ class NormalTriangle : public Triangle {
     /// Get the normal corresponding to Vertex3()
     Vector3 Normal3() const;
 
-    HitInfo FindIntersection(Ray ray) const override;
+    HitInfo FindIntersection(const Ray& ray) const override;
 };
 
 #endif

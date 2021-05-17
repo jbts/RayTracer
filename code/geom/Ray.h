@@ -14,7 +14,7 @@ class Ray {
   
   public:
     Ray();
-    Ray(Point3 start, Vector3 dir);
+    Ray(const Point3& start, const Vector3& dir);
 
     Point3 Start() const { return start_; }
     Vector3 Dir() const { return dir_; }

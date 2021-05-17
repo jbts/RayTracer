@@ -45,7 +45,7 @@ Image* Image::Copy() const {
   return new Image(*this);
 }
 
-void Image::Write(std::string filename) const {
+void Image::Write(const std::string& filename) const {
   // Do some sanity checks on the length of filename
   // Shortest filename allowed is something like a.png
   if (filename.length() < 5) {

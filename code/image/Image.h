@@ -27,7 +27,7 @@ class Image {
     /// Write the image to a file, using the stb_image_write library
     /// The format to write the image in is inferred from its extension
     /// Supported extensions: .jpeg/.jpg, .png, .tga/.targa, .bmp
-    void Write(std::string filename) const;
+    void Write(const std::string& filename) const;
 
     int Width() const { return width_; }
     int Height() const { return height_; }

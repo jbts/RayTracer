@@ -19,7 +19,7 @@ char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
 }
 
-SceneData Parser::ParseFile(std::string filename) {
+SceneData Parser::ParseFile(const std::string& filename) {
     SceneData sdata;
 
     std::ifstream ins;
