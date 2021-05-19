@@ -32,9 +32,12 @@ class SpotLight : public Light {
     float StartFallAngle() const { return start_fall_angle_; }
     float EndFallAngle() const { return end_fall_angle_; }
 
-    /// ======= Unimplemented =======
-    /// Right now this is a placeholder function always returning black
+    /// Compute the color contribution of this spot light at a point of intersection
     Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
+
+    /// Computes the intensity of this spot light at the specified distance
+    /// and angle
+    Intensity IntensityAt(float dist, float angle) const;
 };
 
 #endif
