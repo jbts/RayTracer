@@ -23,19 +23,45 @@
 // How long to wait between progress updates for tracing in % done
 const float trace_update_spacing = 20.0f;
 
-int main(int argc, char* argv[]) {
-  // Show all log messages for now
-  Log::SetLevel(LOG_LEVEL_ALL);
+void print_help_msg() {
+  std::cout << "usage: ./ray [options] filename\n"
+            << "  filename is the path to a scene file to trace\n"
+            << "  Options:\n"
+            << "  -h, --help          output this help message and exit\n"
+            << "  -s, --silent        don't output any log messages\n"
+            << "  -v, --verbose       output lots of log and debug messages\n";
+}
 
-  if (argc != 2) {
-    std::cout << "usage: " + std::string(argv[0]) + " <filename>" << "\n";
+int main(int argc, char* argv[]) {
+  Log::SetLevel(LOG_LEVEL_INFO);
+
+  // Process command-line args, skip argv[0] because it's the program name
+  std::string infile = "";
+  bool found_input_file = false;
+  for (int i = 1; i < argc; i++) {
+    if (strcmp("--silent", argv[i]) == 0 || strcmp("-s", argv[i]) == 0) {
+      Log::SetLevel(LOG_LEVEL_NONE);
+    }
+    else if (strcmp("--help", argv[i]) == 0 || strcmp("-h", argv[i]) == 0) {
+      print_help_msg();
+      exit(0);
+    }
+    else if (strcmp("--verbose", argv[i]) == 0 || strcmp("-v", argv[i]) == 0) {
+      Log::SetLevel(LOG_LEVEL_ALL);
+    }
+    else {
+      infile = std::string(argv[i]);
+      found_input_file = true;
+    }
+  }
+
+  if (!found_input_file) {
+    print_help_msg();
     exit(1);
   }
 
   // Seed RNG
   srand(time(0));
-  
-  std::string infile = std::string(argv[1]);
 
   Log::Info("reading from input file " + infile);
 
