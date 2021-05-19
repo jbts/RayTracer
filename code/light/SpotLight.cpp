@@ -66,10 +66,6 @@ static float Falloff(float max, float width, float value, float (*f)(float)) {
   return f((max - value) / width);
 }
 
-static float FalloffLinear(float x) {
-  return x;
-}
-
 Intensity SpotLight::IntensityAt(float dist, float angle) const {
   float mod_dist = 1.0f / (dist * dist);
   float mod_angle = 0.0f;
@@ -78,7 +74,7 @@ Intensity SpotLight::IntensityAt(float dist, float angle) const {
   }
   else if (angle < end_fall_angle_) {
     // Could precompute the difference of the two angles since it's an attribute of the light
-    mod_angle = Falloff(end_fall_angle_, end_fall_angle_ - start_fall_angle_, angle, FalloffLinear);
+    mod_angle = Falloff(end_fall_angle_, end_fall_angle_ - start_fall_angle_, angle, sqrtf);
   }
   return i_ * mod_dist * mod_angle;
 }
