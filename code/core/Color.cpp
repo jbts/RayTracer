@@ -26,6 +26,10 @@ Color operator+(const Color& c, const Color& d) {
   return Color(c.R()+d.R(), c.G()+d.G(), c.B()+d.B());
 }
 
+Color operator*(const Color& c, const Color& d) {
+  return Color(c.R()*d.R(), c.G()*d.G(), c.B()*d.B());
+}
+
 Color operator*(const Color& c, float s) {
   return Color(c.R()*s, c.G()*s, c.B()*s);
 }

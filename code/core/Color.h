@@ -28,6 +28,10 @@ Color ColorLerp(const Color& start, const Color& target, float t);
 /// Useful for lighting calculations
 Color operator+(const Color& c, const Color& d);
 
+/// Multiply two colors in a component-wise fashion
+/// Useful for lighting calculations
+Color operator*(const Color& c, const Color& d);
+
 /// Multiply a color by a scalar in a component-wise fashion
 /// Useful for lighting calculations
 Color operator*(const Color& c, float s);
