@@ -43,8 +43,7 @@ Color SpotLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const 
     }
   }
 
-  Color mat_spec = mat.ColorSpecular();
-  Color reflect_color_adjusted = Color(mat_spec.R() * reflect_color.R(), mat_spec.G() * reflect_color.G(), mat_spec.B() * reflect_color.B());
+  Color reflect_color_adjusted = reflect_color * mat.ColorSpecular();
   Color c = Color(0, 0, 0);
 
   if (!in_shadow) {
