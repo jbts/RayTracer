@@ -113,7 +113,7 @@ int main(int argc, char* argv[]) {
   Log::Info("scene constructed -- tracing!");
 
   int num_pixels = trace_data_list.size();
-  #pragma omp parallel for
+  #pragma omp parallel for schedule(dynamic)
   for (int i = 0; i < num_pixels; i++) {
     PixelTraceData trace_data = trace_data_list.at(i);
     Color pixel_color = Color(0, 0, 0);
