@@ -44,6 +44,8 @@ class Triangle : public Primitive {
   protected:
     // A plane containing this triangle
     Plane plane_containing_;
+    // The area of this triangle
+    float area_;
 
   public:
     Triangle(int v1_index, int v2_index, int v3_index, const Material& m);

@@ -17,6 +17,7 @@ Triangle::Triangle(int v1_index, int v2_index, int v3_index, const Material& m) 
   v3_index_ = v3_index;
   m_ = m;
   plane_containing_ = PlaneContaining(*this);
+  area_ = Area();
 }
 
 HitInfo Triangle::FindIntersection(const Ray& ray) const {
@@ -74,10 +75,9 @@ bool Triangle::Contains(const Point3& p) const {
 }
 
 BaryCoords Triangle::FindBaryCoords(const Point3& p) const {
-  float area_tot = Area();
-  float coord1 = TriangleArea(Vertex2(), Vertex3(), p) / area_tot;
-  float coord2 = TriangleArea(Vertex3(), Vertex1(), p) / area_tot;
-  float coord3 = TriangleArea(Vertex1(), Vertex2(), p) / area_tot;
+  float coord1 = TriangleArea(Vertex2(), Vertex3(), p) / area_;
+  float coord2 = TriangleArea(Vertex3(), Vertex1(), p) / area_;
+  float coord3 = TriangleArea(Vertex1(), Vertex2(), p) / area_;
   return BaryCoords(coord1, coord2, coord3);
 }
 
