@@ -1,6 +1,6 @@
 # Scene Files
 
-A *scene file* is a .txt file that tells the raytracer about the scene it
+A *scene file* is a .txt file that tells the ray tracer about the scene it
 should trace. It contains information about the geometry in the scene, like
 triangles and spheres, and also information about the camera, output image, and
 other related things. Much of the structure of these files comes from Dr. Guy.
@@ -26,7 +26,7 @@ Sets the name of the output image.
 
 #### `sample_jitter: n`
 
-Tells the tracer to use jittered supersampling by taking `n` random samples throughout each pixel instead of taking one sample through each pixel's center. Improves image quality by reducing jaggies/pixelation, but takes about `n` times as long to trace. `n=10` is a good starting point to see how the scene looks.
+Tells the tracer to use jittered super-sampling by taking `n` random samples throughout each pixel instead of taking one sample through each pixel's center. Improves image quality by reducing jaggies/pixelation, but takes about `n` times as long to trace. `n=10` is a good starting point to see how the scene looks.
 
 #### `max_depth: n`
 
@@ -82,11 +82,11 @@ Adds a normal vector to the scene's normal list.
 
 #### `triangle: v1 v2 v3`
 
-Adds a triangle to the scene. `v1`, `v2`, and `v3` are integer indicies into the scene's vertex list, which is indexed starting at 0. These are the three vertices or corners of the triangle. The triangle is double-sided, so winding order does not matter.
+Adds a triangle to the scene. `v1`, `v2`, and `v3` are integer indices into the scene's vertex list, which is indexed starting at 0. These are the three vertices or corners of the triangle. The triangle is double-sided, so winding order does not matter.
 
 #### `normal_triangle: v1 v2 v3 n1 n2 n3`
 
-Adds a triangle with normal interpolation to the scene. `v1`, `v2`, and `v3` are as in the `triangle` command. `n1`, `n2`, and `n3` are integer indicies into the scene's normal list, which is indexed starting at 0. These are the normals at the correspoding vertex of the triangle. The normal of the triangle at a point inside it is found by interpolating these normals using barycentric coordinates. This means that these triangles are 1-sided, depending on the direction of their normal.
+Adds a triangle with normal interpolation to the scene. `v1`, `v2`, and `v3` are as in the `triangle` command. `n1`, `n2`, and `n3` are integer indices into the scene's normal list, which is indexed starting at 0. These are the normals at the corresponding vertex of the triangle. The normal of the triangle at a point inside it is found by interpolating these normals using barycentric coordinates. This means that these triangles are 1-sided, depending on the direction of their normal.
 
 #### `ambient_light: r g b`
 
