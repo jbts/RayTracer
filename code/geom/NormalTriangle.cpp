@@ -36,8 +36,7 @@ Vector3 NormalTriangle::Normal3() const {
 // Very similar to Triangle::FindIntersection()
 // Differs in how we compute the normal at the point of intersection
 HitInfo NormalTriangle::FindIntersection(const Ray& ray) const {
-  Plane plane = PlaneContaining(*this);
-  HitInfo hit_info_plane = plane.FindIntersection(ray);
+  HitInfo hit_info_plane = plane_containing_.FindIntersection(ray);
   // If the ray doesn't hit the plane containing the triangle, then it doesn't hit the triangle
   if (!hit_info_plane.DidIntersect()) {
     return HitInfo::NoHit();

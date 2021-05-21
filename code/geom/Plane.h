@@ -6,7 +6,6 @@
 #include "geom/Primitive.h"
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
-#include "geom/Triangle.h"
 #include "light/Material.h"
 
 /// A plane in 3D, defined by a normal and a point lying on the plane
@@ -29,8 +28,5 @@ class Plane : public Primitive {
     /// Check whether the plane contains the given point
     bool Contains(const Point3& p) const;
 };
-
-/// Get the plane containing all three points of the given triangle
-Plane PlaneContaining(const Triangle& tri);
 
 #endif

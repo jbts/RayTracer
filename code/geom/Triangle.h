@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "geom/Primitive.h"
+#include "geom/Plane.h"
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 #include "light/Material.h"
@@ -39,6 +40,10 @@ class Triangle : public Primitive {
     const float contains_tolerance_ = 0.00001f;
 
     static std::vector<Point3> vertices_;
+  
+  protected:
+    // A plane containing this triangle
+    Plane plane_containing_;
 
   public:
     Triangle(int v1_index, int v2_index, int v3_index, const Material& m);
@@ -68,5 +73,8 @@ class Triangle : public Primitive {
 
 /// Find the area of the triangle spanned by the three given points
 float TriangleArea(const Point3& t1, const Point3& t2, const Point3& t3);
+
+/// Get the plane containing all three points of the given triangle
+Plane PlaneContaining(const Triangle& tri);
 
 #endif
