@@ -39,10 +39,3 @@ bool Plane::Contains(const Point3& p) const {
   
   return fabs(Dot(v, normal_)) <= contains_tolerance_;
 }
-
-Plane PlaneContaining(const Triangle& tri) {
-  Vector3 v1 = tri.Vertex2() - tri.Vertex1();
-  Vector3 v2 = tri.Vertex3() - tri.Vertex1();
-  Vector3 normal = Cross(v1, v2).Normalized();
-  return Plane(tri.Vertex1(), normal, tri.GetMaterial());
-}

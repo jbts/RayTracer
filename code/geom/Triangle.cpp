@@ -16,11 +16,12 @@ Triangle::Triangle(int v1_index, int v2_index, int v3_index, const Material& m) 
   v2_index_ = v2_index;
   v3_index_ = v3_index;
   m_ = m;
+  plane_containing_ = PlaneContaining(*this);
+  area_ = Area();
 }
 
 HitInfo Triangle::FindIntersection(const Ray& ray) const {
-  Plane plane = PlaneContaining(*this);
-  HitInfo hit_info_plane = plane.FindIntersection(ray);
+  HitInfo hit_info_plane = plane_containing_.FindIntersection(ray);
   // If the ray doesn't hit the plane containing the triangle, then it doesn't hit the triangle
   if (!hit_info_plane.DidIntersect()) {
     return HitInfo::NoHit();
@@ -74,9 +75,15 @@ bool Triangle::Contains(const Point3& p) const {
 }
 
 BaryCoords Triangle::FindBaryCoords(const Point3& p) const {
-  float area_tot = Area();
-  float coord1 = TriangleArea(Vertex2(), Vertex3(), p) / area_tot;
-  float coord2 = TriangleArea(Vertex3(), Vertex1(), p) / area_tot;
-  float coord3 = TriangleArea(Vertex1(), Vertex2(), p) / area_tot;
+  float coord1 = TriangleArea(Vertex2(), Vertex3(), p) / area_;
+  float coord2 = TriangleArea(Vertex3(), Vertex1(), p) / area_;
+  float coord3 = TriangleArea(Vertex1(), Vertex2(), p) / area_;
   return BaryCoords(coord1, coord2, coord3);
+}
+
+Plane PlaneContaining(const Triangle& tri) {
+  Vector3 v1 = tri.Vertex2() - tri.Vertex1();
+  Vector3 v2 = tri.Vertex3() - tri.Vertex1();
+  Vector3 normal = Cross(v1, v2);
+  return Plane(tri.Vertex1(), normal, tri.GetMaterial());
 }
