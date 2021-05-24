@@ -8,7 +8,7 @@
 #include "geom/Ray.h"
 #include "light/Material.h"
 
-Plane::Plane(const Point3& p, const Vector3& normal, const Material& m) {
+Plane::Plane(const Point3& p, const Vector3& normal, const Material* const m) {
   p_ = p;
   normal_ = normal.Normalized();
   m_ = m;

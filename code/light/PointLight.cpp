@@ -17,7 +17,7 @@ Color PointLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const
   Vector3 normal = hit_info.Normal().Normalized();
   Vector3 dir = ray.Dir().Normalized();
   Intensity i_at_point = IntensityAtDistance(to_light.Mag());
-  Material mat = hit_info.GetMaterial();
+  const Material* mat = hit_info.GetMaterial();
 
   // Should this intersection be in shadow?
   Ray shadow_ray = Ray(intersection_point + 0.0001 * normal, to_light_unit);
@@ -39,7 +39,7 @@ Color PointLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const
     }
   }
 
-  Color reflect_color_adjusted = reflect_color * mat.ColorSpecular();
+  Color reflect_color_adjusted = reflect_color * mat->ColorSpecular();
 
   Color c = Color(0, 0, 0);
   

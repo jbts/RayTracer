@@ -11,10 +11,10 @@
 Sphere::Sphere() {
   pos_ = Point3(0, 0, 0);
   r_ = 0;
-  m_ = Material();
+  m_ = Material::BaseMat();
 }
 
-Sphere::Sphere(const Point3& pos, float r, const Material& m) {
+Sphere::Sphere(const Point3& pos, float r, const Material* const m) {
   pos_ = pos;
   r_ = r;
   m_ = m;

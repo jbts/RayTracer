@@ -13,7 +13,7 @@ Color DirectionalLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info,
   Vector3 normal = hit_info.Normal().Normalized();
   // to_light is the same at every point in space for a directional light
   Vector3 to_light = (-1 * dir_).Normalized();
-  Material mat = hit_info.GetMaterial();
+  const Material* mat = hit_info.GetMaterial();
   Point3 intersection_point = ray.AtTime(hit_info.Time());
   Vector3 dir = ray.Dir();
 
@@ -37,7 +37,7 @@ Color DirectionalLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info,
     }
   }
 
-  Color reflect_color_adjusted = reflect_color * mat.ColorSpecular();
+  Color reflect_color_adjusted = reflect_color * mat->ColorSpecular();
   
   Color c = Color(0, 0, 0);
   

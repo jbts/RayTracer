@@ -11,7 +11,7 @@
 
 std::vector<Point3> Triangle::vertices_ = std::vector<Point3>();
 
-Triangle::Triangle(int v1_index, int v2_index, int v3_index, const Material& m) {
+Triangle::Triangle(int v1_index, int v2_index, int v3_index, const Material* const m) {
   v1_index_ = v1_index;
   v2_index_ = v2_index;
   v3_index_ = v3_index;

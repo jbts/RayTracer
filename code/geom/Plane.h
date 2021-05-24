@@ -14,14 +14,14 @@ class Plane : public Primitive {
     // A point on the plane
     Point3 p_;
     Vector3 normal_;
-    Material m_;
+    const Material* m_;
   
     // How far a point can be from the plane and still be considered "contained" in it
     float contains_tolerance_ = 0.00001f;
 
   public:
     Plane() : p_(0, 0, 0), normal_(0, 1, 0), m_() {}
-    Plane(const Point3& p, const Vector3& normal, const Material& m);
+    Plane(const Point3& p, const Vector3& normal, const Material* const m);
 
     HitInfo FindIntersection(const Ray& ray) const override;
 

@@ -34,7 +34,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
 
     // Current material, applied to primitives added
     // Default is given in spec file
-    Material curr_mat(Color(0, 0, 0), Color(1, 1, 1), Color(0, 0, 0), 5, Color(0, 0, 0), 1);
+    Material* curr_mat = new Material(Color(0, 0, 0), Color(1, 1, 1), Color(0, 0, 0), 5, Color(0, 0, 0), 1);
 
     while (!ins.eof()) {
       lineno++;
@@ -226,7 +226,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
           Color diffuse(std::stof(dr), std::stof(dg), std::stof(db));
           Color specular(std::stof(sr), std::stof(sg), std::stof(sb));
           Color transmissive(std::stof(tr), std::stof(tg), std::stof(tb));
-          curr_mat = Material(ambient, diffuse, specular, std::stof(ns), transmissive, std::stof(ior));
+          curr_mat = new Material(ambient, diffuse, specular, std::stof(ns), transmissive, std::stof(ior));
         }
         catch (...) {
           throw ParseError("unable to parse material arg(s) as type float", lineno);

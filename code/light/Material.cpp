@@ -1,6 +1,8 @@
 #include "light/Material.h"
 #include "core/Color.h"
 
+Material Material::base_mat_ = Material();
+
 Material::Material() {
     color_amb_ = Color(0, 0, 0);
     color_diff_ = Color(1, 1, 1);

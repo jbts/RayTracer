@@ -33,7 +33,7 @@ class Triangle : public Primitive {
     int v2_index_;
     int v3_index_;
 
-    Material m_;
+    const Material* m_;
 
     // How close to 1 a point's barycentric coordinates must be
     // to be considered "contained" in the triangle
@@ -48,7 +48,7 @@ class Triangle : public Primitive {
     float area_;
 
   public:
-    Triangle(int v1_index, int v2_index, int v3_index, const Material& m);
+    Triangle(int v1_index, int v2_index, int v3_index, const Material* const m);
 
     HitInfo FindIntersection(const Ray& ray) const override;
 
@@ -59,7 +59,7 @@ class Triangle : public Primitive {
     Point3 Vertex2() const;
     Point3 Vertex3() const;
 
-    Material GetMaterial() const { return m_; }
+    const Material* GetMaterial() const { return m_; }
 
     /// Find the area of the triangle
     float Area() const;

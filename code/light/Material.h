@@ -13,6 +13,8 @@ class Material {
     Color color_trans_;
     float ior_;
   
+    static Material base_mat_;
+
   public:
     Material();
     Material(const Color& color_ambient, const Color& color_diffuse, const Color& color_specular,
@@ -25,6 +27,8 @@ class Material {
     Color ColorTransmissive() const { return color_trans_; }
     /// Get the index of refraction of the material
     float IOR() const { return ior_; }
+
+    static const Material* BaseMat() { return &base_mat_; }
 };
 
 #endif

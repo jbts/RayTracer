@@ -20,7 +20,7 @@ class NormalTriangle : public Triangle {
     static std::vector<Vector3> normals_;
   
   public:
-    NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, const Material& m);
+    NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, const Material* const m);
     
     /// Add a normal to the end of the normal list
     static void AddNormal(const Vector3& normal);

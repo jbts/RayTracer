@@ -22,7 +22,7 @@ Color SpotLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const 
   float angle = fabs(acos(Dot(dir_.Normalized(), -1 * to_light_unit)));
   Intensity i_at_point = IntensityAt(to_light.Mag(), angle);
 
-  Material mat = hit_info.GetMaterial();
+  const Material* mat = hit_info.GetMaterial();
 
   // Should this intersection be in shadow?
   Ray shadow_ray = Ray(intersection_point + 0.0001 * normal, to_light_unit);
@@ -43,7 +43,7 @@ Color SpotLight::ComputeLighting(const Ray& ray, const HitInfo& hit_info, const 
     }
   }
 
-  Color reflect_color_adjusted = reflect_color * mat.ColorSpecular();
+  Color reflect_color_adjusted = reflect_color * mat->ColorSpecular();
   Color c = Color(0, 0, 0);
 
   if (!in_shadow) {

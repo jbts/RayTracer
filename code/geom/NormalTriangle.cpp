@@ -11,7 +11,7 @@
 
 std::vector<Vector3> NormalTriangle::normals_ = std::vector<Vector3>();
 
-NormalTriangle::NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, const Material& m) : Triangle(v1_index, v2_index, v3_index, m) {
+NormalTriangle::NormalTriangle(int v1_index, int v2_index, int v3_index, int n1_index, int n2_index, int n3_index, const Material* const m) : Triangle(v1_index, v2_index, v3_index, m) {
   n1_index_ = n1_index;
   n2_index_ = n2_index;
   n3_index_ = n3_index;
