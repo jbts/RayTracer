@@ -11,11 +11,10 @@ class HitInfo {
     float time_;
     Vector3 normal_;
     const Material* material_;
-    unsigned long primitive_id_;
 
   public:
     HitInfo();
-    HitInfo(bool did_intersect, float time, const Vector3& normal, const Material* const material, unsigned long primitive_id);
+    HitInfo(bool did_intersect, float time, const Vector3& normal, const Material* const material);
 
     /// Whether there was an intersection or not. If this evaluates to false,
     /// then the rest of the data in the HitInfo object aren't meaningful.
@@ -30,9 +29,6 @@ class HitInfo {
 
     /// The material of the object at the point of intersection
     const Material* GetMaterial() const { return material_; }
-
-    /// Return the id of the primitive intersected
-    unsigned long PrimitiveID() const { return primitive_id_; }
 
     /// Creates a HitInfo object indicating that there was no intersection, with
     /// reasonable values. DidIntersect() is guaranteed to return false on the returned

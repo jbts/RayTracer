@@ -31,7 +31,7 @@ HitInfo Plane::FindIntersection(const Ray& ray) const {
     return HitInfo::NoHit();
   }
 
-  return HitInfo(true, t, normal_, m_, ID());
+  return HitInfo(true, t, normal_, m_);
 }
 
 bool Plane::Contains(const Point3& p) const {

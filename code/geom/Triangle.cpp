@@ -39,7 +39,7 @@ HitInfo Triangle::FindIntersection(const Ray& ray) const {
     if (Dot(ray.Dir(), normal) > 0) {
       normal = -1 * normal;
     }
-    return HitInfo(true, hit_info_plane.Time(), normal, m_, ID());
+    return HitInfo(true, hit_info_plane.Time(), normal, m_);
   }
 
   return HitInfo::NoHit();

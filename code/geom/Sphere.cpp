@@ -48,7 +48,7 @@ HitInfo Sphere::FindIntersection(const Ray& ray) const {
   if (t1 > 0) {
     // Compute normal of sphere at intersection
     Vector3 normal = (ray.AtTime(t1) - pos_).Normalized();
-    hit_info = HitInfo(true, t1, normal, m_, ID());
+    hit_info = HitInfo(true, t1, normal, m_);
   }
 
   // We know that t2 <= t1 since sqrt_discrim >= 0 and A > 0
@@ -56,7 +56,7 @@ HitInfo Sphere::FindIntersection(const Ray& ray) const {
   if (t2 > 0 && t2 < t1) {
     // Compute normal of sphere at intersection
     Vector3 normal = (ray.AtTime(t2) - pos_).Normalized();
-    hit_info = HitInfo(true, t2, normal, m_, ID());
+    hit_info = HitInfo(true, t2, normal, m_);
   }
 
   return hit_info;
