@@ -19,7 +19,7 @@ class Plane {
     float contains_tolerance_ = 0.00001f;
 
   public:
-    Plane() : p_(0, 0, 0), normal_(0, 1, 0), m_() {}
+    Plane() : p_(0, 0, 0), normal_(0, 1, 0), m_(Material::BaseMat()) {}
     Plane(const Point3& p, const Vector3& normal, const Material* const m);
 
     HitInfo FindIntersection(const Ray& ray) const;
