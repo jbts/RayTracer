@@ -8,6 +8,7 @@
 #include "light/Material.h"
 
 /// A plane in 3D, defined by a normal and a point lying on the plane
+/// A plane is not a Primitive because it's not bounded
 class Plane {
   private:
     // A point on the plane
@@ -16,7 +17,7 @@ class Plane {
     const Material* m_;
   
     // How far a point can be from the plane and still be considered "contained" in it
-    float contains_tolerance_ = 0.00001f;
+    float contains_tolerance_ = 0.0001f;
 
   public:
     Plane() : p_(0, 0, 0), normal_(0, 1, 0), m_(Material::BaseMat()) {}
