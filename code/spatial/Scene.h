@@ -26,12 +26,6 @@ class Scene {
     /// The first intersection is the one with smallest "time" / ray parameter
     /// Returns a HitInfo object with information about the point of collision (and whether it exists)
     HitInfo FindClosestIntersection(const Ray& ray) const;
-
-    /// Find the first intersection between the ray and the group of primitives in the scene
-    /// Ignore primitives who have ids contained in the exclude_ids list
-    /// The first intersection is the one with smallest "time" / ray parameter
-    /// Returns a HitInfo object with information about the point of collision (and whether it exists)
-    HitInfo FindClosestIntersection(const Ray& ray, const std::vector<unsigned long>& exclude_ids);
 };
 
 #endif

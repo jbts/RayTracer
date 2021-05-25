@@ -53,7 +53,7 @@ HitInfo NormalTriangle::FindIntersection(const Ray& ray) const {
     // three provided normals using barycentric coordinates
     BaryCoords bc = FindBaryCoords(intersection_point);
     Vector3 normal = (bc.Coord1() * Normal1() + bc.Coord2() * Normal2() + bc.Coord3() * Normal3()).Normalized();
-    return HitInfo(true, hit_info_plane.Time(), normal, GetMaterial(), ID());
+    return HitInfo(true, hit_info_plane.Time(), normal, GetMaterial());
   }
 
   return HitInfo::NoHit();
