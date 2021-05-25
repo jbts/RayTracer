@@ -8,6 +8,7 @@
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 #include "light/Material.h"
+#include "spatial/XYZBounds.h"
 
 /// Barycentric coordinates
 /// These are an indication of how close a point is to each corner of a triangle
@@ -51,6 +52,7 @@ class Triangle : public Primitive {
     Triangle(int v1_index, int v2_index, int v3_index, const Material* const m);
 
     HitInfo FindIntersection(const Ray& ray) const override;
+    XYZBounds FindBounds() const override;
 
     /// Add a vertex to the end of the vertex list
     static void AddVertex(const Point3& vertex);

@@ -18,11 +18,11 @@ BVHNode* ConstructBVH(std::vector<Sphere*> spheres, std::vector<Triangle*> trian
   std::vector<XYZBounds> triangle_bounds;
 
   for (Sphere* sphere : spheres) {
-    sphere_bounds.push_back(XYZBounds::GetBounds(sphere));
+    sphere_bounds.push_back(sphere->FindBounds());
   }
 
   for (Triangle* triangle : triangles) {
-    triangle_bounds.push_back(XYZBounds::GetBounds(triangle));
+    triangle_bounds.push_back(triangle->FindBounds());
   }
 
   // Sort the spheres and triangles by bounds.MinX(), then merge into one list of primitives

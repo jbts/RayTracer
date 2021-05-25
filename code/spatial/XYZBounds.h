@@ -1,9 +1,6 @@
 #ifndef SPATIAL_XYZBOUNDS_H_
 #define SPATIAL_XYZBOUNDS_H_
 
-#include "geom/Sphere.h"
-#include "geom/Triangle.h"
-
 /// Represents bounds in x, y, and z for a sphere or triangle
 /// They don't need to be exact, the primitive just needs to be completely
 /// contained inside the bounds
@@ -26,14 +23,6 @@ class XYZBounds {
     float YMax() const { return y_max_; }
     float ZMin() const { return z_min_; }
     float ZMax() const { return z_max_; }
-
-    /// Get bounds for a sphere
-    /// The bounds returned are very close to exact
-    static XYZBounds GetBounds(Sphere* sphere);
-
-    /// Get bounds for a triangle
-    /// The bounds returned are very close to exact
-    static XYZBounds GetBounds(Triangle* triangle);
 };
 
 #endif

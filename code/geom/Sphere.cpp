@@ -61,3 +61,13 @@ HitInfo Sphere::FindIntersection(const Ray& ray) const {
 
   return hit_info;
 }
+
+XYZBounds Sphere::FindBounds() const {
+  float x_min = pos_.X() - r_;
+  float x_max = pos_.X() + r_;
+  float y_min = pos_.Y() - r_;
+  float y_max = pos_.Y() + r_;
+  float z_min = pos_.Z() - r_;
+  float z_max = pos_.Z() + r_;
+  return XYZBounds(x_min, x_max, y_min, y_max, z_min, z_max);
+}
