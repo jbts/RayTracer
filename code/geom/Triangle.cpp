@@ -45,6 +45,21 @@ HitInfo Triangle::FindIntersection(const Ray& ray) const {
   return HitInfo::NoHit();
 }
 
+XYZBounds Triangle::FindBounds() const {
+  Point3 v1 = Vertex1();
+  Point3 v2 = Vertex2();
+  Point3 v3 = Vertex3();
+
+  float x_min = std::min(std::min(v1.X(), v2.X()), v3.X());
+  float x_max = std::max(std::max(v1.X(), v2.X()), v3.X());
+  float y_min = std::min(std::min(v1.Y(), v2.Y()), v3.Y());
+  float y_max = std::max(std::max(v1.Y(), v2.Y()), v3.Y());
+  float z_min = std::min(std::min(v1.Z(), v2.Z()), v3.Z());
+  float z_max = std::max(std::max(v1.Z(), v2.Z()), v3.Z());
+
+  return XYZBounds(x_min, x_max, y_min, y_max, z_min, z_max);
+}
+
 void Triangle::AddVertex(const Point3& vertex) {
   vertices_.push_back(vertex);
 }

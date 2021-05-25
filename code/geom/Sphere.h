@@ -5,6 +5,7 @@
 #include "geom/Ray.h"
 #include "core/Point3.h"
 #include "light/Material.h"
+#include "spatial/XYZBounds.h"
 
 /// A 3D sphere
 class Sphere : public Primitive {
@@ -22,6 +23,7 @@ class Sphere : public Primitive {
     const Material* GetMaterial() const { return m_; }
 
     HitInfo FindIntersection(const Ray& ray) const override;
+    XYZBounds FindBounds() const override;
 };
 
 #endif
