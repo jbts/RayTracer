@@ -35,8 +35,7 @@ class SceneData {
     int max_recurse_depth;
 
     // Geometry data
-    std::vector<Triangle*> triangles;
-    std::vector<Sphere*> spheres;
+    std::vector<Primitive*> primitives;
     
     // Lighting data
     Color background_color;

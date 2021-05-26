@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include "geom/Sphere.h"
-#include "geom/Triangle.h"
 #include "geom/Primitive.h"
 #include "spatial/XYZBounds.h"
 #include "spatial/BVHLeafNode.h"
@@ -12,112 +10,47 @@
 
 // Compute bounds and sort primitives by minimum x value, then
 // call ConstructBVH(primitives, bounds) to create the BVH
-BVHNode* ConstructBVH(std::vector<Sphere*> spheres, std::vector<Triangle*> triangles) {
+BVHNode* ConstructBVH(std::vector<Primitive*> primitives) {
   Log::Debug("constructing BVH - preprocessing step");
-  std::vector<XYZBounds> sphere_bounds;
-  std::vector<XYZBounds> triangle_bounds;
+  std::vector<XYZBounds> bounds;
 
-  for (Sphere* sphere : spheres) {
-    sphere_bounds.push_back(sphere->FindBounds());
+  for (Primitive* primitive : primitives) {
+    bounds.push_back(primitive->FindBounds());
   }
 
-  for (Triangle* triangle : triangles) {
-    triangle_bounds.push_back(triangle->FindBounds());
-  }
-
-  // Sort the spheres and triangles by bounds.MinX(), then merge into one list of primitives
+  // Sort the primitives by bounds.MinX()
   // Maintain bounds for each primitive in a second parallel list
   // Then call ConstructBVH(primitives, bounds)
 
-  // Sort spheres
+  // Sort primitives using bubblesort
   // Good spot for a better algorithm if constructing BVHs takes a long time
-  size_t num_spheres = spheres.size();
+  size_t num_primitives = primitives.size();
   size_t min_index = 0;
   float min_value = 1000;
    
-  Log::Debug("sorting spheres for BVH");
-  for (size_t i = 0; i < num_spheres; i++) {
+  Log::Debug("sorting primitives for BVH");
+  for (size_t i = 0; i < num_primitives; i++) {
     min_index = i;
-    min_value = sphere_bounds.at(i).XMin();
-    for (size_t j = i; j < num_spheres; j++) {
-      if (sphere_bounds.at(j).XMin() < min_value) {
+    min_value = bounds.at(i).XMin();
+    for (size_t j = i; j < num_primitives; j++) {
+      if (bounds.at(j).XMin() < min_value) {
         min_index = j;
-        min_value = sphere_bounds.at(j).XMin();
+        min_value = bounds.at(j).XMin();
       }
     }
 
-    XYZBounds bounds_tmp = sphere_bounds.at(i);
-    Sphere* sphere_tmp = spheres.at(i);
+    XYZBounds bounds_tmp = bounds.at(i);
+    Primitive* primitive_tmp = primitives.at(i);
 
-    sphere_bounds.at(i) = sphere_bounds.at(min_index);
-    spheres.at(i) = spheres.at(min_index);
+    bounds.at(i) = bounds.at(min_index);
+    primitives.at(i) = primitives.at(min_index);
 
-    sphere_bounds.at(min_index) = bounds_tmp;
-    spheres.at(min_index) = sphere_tmp;
-  }
-
-  // Now sort triangles
-  // Probably even worse than spheres...
-  size_t num_triangles = triangles.size();
-  min_index = 0;
-  min_value = 1000;
-
-  Log::Debug("sorting triangles for BVH");
-  for (size_t i = 0; i < num_triangles; i++) {
-    min_index = i;
-    min_value = triangle_bounds.at(i).XMin();
-    for (size_t j = i; j < num_triangles; j++) {
-      if (triangle_bounds.at(j).XMin() < min_value) {
-        min_index = j;
-        min_value = triangle_bounds.at(j).XMin();
-      }
-    }
-
-    XYZBounds bounds_tmp = triangle_bounds.at(i);
-    Triangle* triangle_tmp = triangles.at(i);
-
-    triangle_bounds.at(i) = triangle_bounds.at(min_index);
-    triangles.at(i) = triangles.at(min_index);
-
-    triangle_bounds.at(min_index) = bounds_tmp;
-    triangles.at(min_index) = triangle_tmp;
-  }
-
-  // Merge the two lists into one sorted primitives list
-  std::vector<Primitive*> sorted_primitives;
-  std::vector<XYZBounds> sorted_bounds;
-
-  size_t sphere_index = 0;
-  size_t triangle_index = 0;
-  while (sphere_index < num_spheres && triangle_index < num_triangles) {
-    if (sphere_bounds.at(sphere_index).XMin() < triangle_bounds.at(triangle_index).XMin()) {
-      sorted_primitives.push_back(spheres.at(sphere_index));
-      sorted_bounds.push_back(sphere_bounds.at(sphere_index));
-      sphere_index++;
-    }
-    else {
-      sorted_primitives.push_back(triangles.at(triangle_index));
-      sorted_bounds.push_back(triangle_bounds.at(triangle_index));
-      triangle_index++;
-    }
-  }
-
-  // Now clean up any remaining triangles or spheres
-  // At most one list has remaining entries, and they are sorted
-  while (sphere_index < num_spheres) {
-    sorted_primitives.push_back(spheres.at(sphere_index));
-    sorted_bounds.push_back(sphere_bounds.at(sphere_index));
-    sphere_index++;
-  }
-
-  while (triangle_index < num_triangles) {
-    sorted_primitives.push_back(triangles.at(triangle_index));
-    sorted_bounds.push_back(triangle_bounds.at(triangle_index));
-    triangle_index++;
+    bounds.at(min_index) = bounds_tmp;
+    primitives.at(min_index) = primitive_tmp;
   }
 
   Log::Debug("preprocessing done -- recursively constructing BVH");
-  return ConstructBVH(sorted_primitives, sorted_bounds);
+  return ConstructBVH(primitives, bounds);
 }
 
 BVHNode* ConstructBVH(std::vector<Primitive*> primitives, std::vector<XYZBounds> bounds) {

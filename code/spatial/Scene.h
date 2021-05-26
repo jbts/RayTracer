@@ -4,8 +4,7 @@
 #include <vector>
 
 #include "core/Color.h"
-#include "geom/Triangle.h"
-#include "geom/Sphere.h"
+#include "geom/Primitive.h"
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 #include "spatial/BVHNode.h"
@@ -19,7 +18,7 @@ class Scene {
     BVHNode* bvh_root;
     
   public:
-    Scene(const Color& background_color, const std::vector<Sphere*>& spheres, const std::vector<Triangle*>& triangles);
+    Scene(const Color& background_color, const std::vector<Primitive*>& primitives);
     Color BackgroundColor() const { return background_color_; }
     
     /// Find the first intersection between the ray and the group of primitives in the scene
