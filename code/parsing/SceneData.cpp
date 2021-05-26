@@ -21,8 +21,7 @@ SceneData::SceneData() {
   output_image = "raytraced.bmp";
   max_recurse_depth = 5;
      
-  triangles = std::vector<Triangle*>();
-  spheres = std::vector<Sphere*>();
+  primitives = std::vector<Primitive*>();
 
   background_color = Color(0, 0, 0);
   lights = std::vector<Light*>();

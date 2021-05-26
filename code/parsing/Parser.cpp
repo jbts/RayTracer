@@ -98,7 +98,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
 
         try {
           Point3 pos(std::stof(x), std::stof(y), std::stof(z));
-          sdata.spheres.push_back(new Sphere(pos, std::stof(r), curr_mat));
+          sdata.primitives.push_back(new Sphere(pos, std::stof(r), curr_mat));
         }
         catch (...) {
           throw ParseError("unable to convert sphere arg(s) to type float", lineno);
@@ -397,7 +397,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
 
         try {
           // v1, v2, v3 are indices, so type int
-          sdata.triangles.push_back(new Triangle(std::stoi(v1), std::stoi(v2), std::stoi(v3), curr_mat));
+          sdata.primitives.push_back(new Triangle(std::stoi(v1), std::stoi(v2), std::stoi(v3), curr_mat));
         }
         catch (...) {
           throw ParseError("unable to parse triangle arg(s) as type int", lineno);
@@ -419,7 +419,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
         try {
           // v1, v2, v3, n1, n2, n3 are indices, so type int
           Triangle* tri = new NormalTriangle(std::stoi(v1), std::stoi(v2), std::stoi(v3), std::stoi(n1), std::stoi(n2), std::stoi(n3), curr_mat);
-          sdata.triangles.push_back(tri);
+          sdata.primitives.push_back(tri);
         }
         catch (...) {
           throw ParseError("unable to parse normal_triangle arg(s) as type int", lineno);

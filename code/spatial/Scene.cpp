@@ -3,21 +3,14 @@
 #include <vector>
 
 #include "core/Color.h"
-#include "geom/Triangle.h"
-#include "geom/Sphere.h"
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 
-Scene::Scene(const Color& background_color, const std::vector<Sphere*>& spheres, const std::vector<Triangle*>& triangles) {
+Scene::Scene(const Color& background_color, const std::vector<Primitive*>& primitives) {
   background_color_ = background_color;
-  for (Sphere* sphere : spheres) {
-    primitives_.push_back(sphere);
-  }
-  for (Triangle* triangle : triangles) {
-    primitives_.push_back(triangle);
-  }
+  primitives_ = primitives;
 
-  bvh_root = ConstructBVH(spheres, triangles);
+  bvh_root = ConstructBVH(primitives);
 }
 
 /*

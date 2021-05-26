@@ -103,13 +103,14 @@ int main(int argc, char* argv[]) {
   }
 
   Log::Info("generated " + std::to_string(num_rays) + " rays to trace");
+  Log::Info("scene contains " + std::to_string(sdata.primitives.size()) + " primitives");
 
   std::mutex status_update_mutex;
   int rays_traced = 0;
   float last_update = 0.0f;
 
   Log::Info("constructing the scene");
-  Scene scene = Scene(sdata.background_color, sdata.spheres, sdata.triangles);
+  Scene scene = Scene(sdata.background_color, sdata.primitives);
   Log::Info("scene constructed -- tracing!");
 
   int num_pixels = trace_data_list.size();

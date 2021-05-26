@@ -1,10 +1,10 @@
 #ifndef SPATIAL_BVHNODE_H_
 #define SPATIAL_BVHNODE_H_
 
+#include <vector>
+
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
-#include "geom/Sphere.h"
-#include "geom/Triangle.h"
 #include "geom/Primitive.h"
 #include "spatial/XYZBounds.h"
 
@@ -15,7 +15,7 @@ class BVHNode {
     virtual HitInfo FindClosestIntersection(const Ray& ray) const = 0;
 };
 
-BVHNode* ConstructBVH(std::vector<Sphere*> spheres, std::vector<Triangle*> triangles);
+BVHNode* ConstructBVH(std::vector<Primitive*> primitives);
 
 BVHNode* ConstructBVH(std::vector<Primitive*> primitives, std::vector<XYZBounds> bounds);
 #endif
