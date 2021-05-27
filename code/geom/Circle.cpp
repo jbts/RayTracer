@@ -24,8 +24,14 @@ HitInfo Circle::FindIntersection(const Ray& ray) const {
 
   Point3 intersection_point = ray.AtTime(plane_hit_info.Time());
   
+  // Check that the ray hits the circle
   if ((center_ - intersection_point).Mag() <= r_) {
-    return plane_hit_info;
+    // Make sure the normal of the circle points opposite the direction
+    // of the incoming ray
+    if (Dot(ray.Dir(), normal_) > 0) {
+      return HitInfo(true, plane_hit_info.Time(), -1 * normal_, m_);
+    }
+    return HitInfo(true, plane_hit_info.Time(), normal_, m_);
   }
 
   return HitInfo::NoHit();
