@@ -10,7 +10,7 @@ Scene::Scene(const Color& background_color, const std::vector<Primitive*>& primi
   background_color_ = background_color;
   primitives_ = primitives;
 
-  bvh_root = ConstructBVH(primitives);
+  bvh_root_ = ConstructBVH(primitives);
 }
 
 /*
@@ -34,6 +34,6 @@ HitInfo Scene::FindClosestIntersection(Ray ray) const {
 */
 
 HitInfo Scene::FindClosestIntersection(const Ray& ray) const {
-  return bvh_root->FindClosestIntersection(ray);
+  return bvh_root_->FindClosestIntersection(ray);
 }
 

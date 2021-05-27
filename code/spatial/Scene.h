@@ -15,7 +15,7 @@ class Scene {
   private:
     Color background_color_;
     std::vector<Primitive*> primitives_;
-    BVHNode* bvh_root;
+    BVHNode* bvh_root_;
     
   public:
     Scene(const Color& background_color, const std::vector<Primitive*>& primitives);
