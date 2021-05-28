@@ -88,6 +88,10 @@ Adds a triangle to the scene. `v1`, `v2`, and `v3` are integer indices into the 
 
 Adds a triangle with normal interpolation to the scene. `v1`, `v2`, and `v3` are as in the `triangle` command. `n1`, `n2`, and `n3` are integer indices into the scene's normal list, which is indexed starting at 0. These are the normals at the corresponding vertex of the triangle. The normal of the triangle at a point inside it is found by interpolating these normals using barycentric coordinates. This means that these triangles are 1-sided, depending on the direction of their normal.
 
+#### `circle: x y z r dx dy dz`
+
+Adds a circle to the scene with center `(x, y, z)` and radius `r`. The normal of the circle is `(dx, dy, dz)`. The circle is 2D and double-sided like triangles created with the `triangle` command.
+
 #### `ambient_light: r g b`
 
 Adds an ambient light to the scene with the given intensity. Ambient lights shine everywhere equally.

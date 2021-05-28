@@ -13,6 +13,7 @@
 #include "geom/Sphere.h"
 #include "geom/Triangle.h"
 #include "geom/NormalTriangle.h"
+#include "geom/Circle.h"
 #include "parsing/SceneData.h"
 
 char* Parser::NextToken() {
@@ -423,6 +424,32 @@ SceneData Parser::ParseFile(const std::string& filename) {
         }
         catch (...) {
           throw ParseError("unable to parse normal_triangle arg(s) as type int", lineno);
+        }
+      }
+      // circle: x y z r nx ny nz
+      else if (strcmp("circle:", tok) == 0) {
+        Log::Debug("found circle command");
+        char* x = NextToken();
+        char* y = NextToken();
+        char* z = NextToken();
+        char* r = NextToken();
+        char* nx = NextToken();
+        char* ny = NextToken();
+        char* nz = NextToken();
+
+        if (!x || !y || !z || !r || !nx || !ny || !nz) {
+          throw ParseError("missing arg(s) to circle command", lineno);
+        }
+
+        try {
+          Point3 center(std::stof(x), std::stof(y), std::stof(z));
+          float radius = std::stof(r);
+          Vector3 normal(std::stof(nx), std::stof(ny), std::stof(nz));
+
+          sdata.primitives.push_back(new Circle(center, radius, normal, curr_mat));
+        }
+        catch (...) {
+          throw ParseError("unable to parse circle arg(s) as type float", lineno);
         }
       }
       // Custom command
