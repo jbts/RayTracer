@@ -23,7 +23,7 @@
 // How long to wait between progress updates for tracing in % done
 const float trace_update_spacing = 20.0f;
 
-void print_help_msg() {
+void PrintHelpMsg() {
   std::cout << "usage: ./ray [options] filename\n"
             << "  filename is the path to a scene file to trace\n"
             << "  Options:\n"
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]) {
       Log::SetLevel(LOG_LEVEL_NONE);
     }
     else if (strcmp("--help", argv[i]) == 0 || strcmp("-h", argv[i]) == 0) {
-      print_help_msg();
+      PrintHelpMsg();
       exit(0);
     }
     else if (strcmp("--verbose", argv[i]) == 0 || strcmp("-v", argv[i]) == 0) {
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
   }
 
   if (!found_input_file) {
-    print_help_msg();
+    PrintHelpMsg();
     exit(1);
   }
 
