@@ -10,9 +10,8 @@
 # make
 # ./ray my-scene-file.txt
 
-cmake_minimum_required(VERSION 3.10)
-
-project(RayTracer)
+project(RayTracerExecutable)
+add_executable(ray ray.cpp)
 
 add_subdirectory(core)
 add_subdirectory(geom)
@@ -23,8 +22,6 @@ add_subdirectory(logging)
 add_subdirectory(raygen)
 add_subdirectory(spatial)
 
-add_executable(ray ray.cpp)
-
 # From
 # https://cliutils.gitlab.io/modern-cmake/chapters/packages/OpenMP.html
 find_package(OpenMP)
@@ -33,16 +30,16 @@ if (OpenMP_CXX_FOUND)
 endif()
 
 target_include_directories(ray PUBLIC
-                           ${PROJECT_SOURCE_DIR}
-                           ${PROJECT_SOURCE_DIR}/core
-                           ${PROJECT_SOURCE_DIR}/geom
-                           ${PROJECT_SOURCE_DIR}/light
-                           ${PROJECT_SOURCE_DIR}/parsing
-                           ${PROJECT_SOURCE_DIR}/stb_image
-                           ${PROJECT_SOURCE_DIR}/image
-                           ${PROJECT_SOURCE_DIR}/logging
-                           ${PROJECT_SOURCE_DIR}/raygen
-                           ${PROJECT_SOURCE_DIR}/spatial
+                           ${CODE_DIR}
+                           ${CODE_DIR}/core
+                           ${CODE_DIR}/geom
+                           ${CODE_DIR}/light
+                           ${CODE_DIR}/parsing
+                           ${CODE_DIR}/stb_image
+                           ${CODE_DIR}/image
+                           ${CODE_DIR}/logging
+                           ${CODE_DIR}/raygen
+                           ${CODE_DIR}/spatial
 )
 
 target_link_libraries(ray PUBLIC core geom light parsing logging image raygen spatial)

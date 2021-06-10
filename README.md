@@ -35,8 +35,8 @@ top-level repository directory (where this README is).
 ```bash
 mkdir build
 cd build
-cmake -E env CXXFLAGS="-O3" cmake ../code # turn on aggressive compiler optimization
-make # depending on what system you're using, CMake may generate a Makefile or some other way to build the code
+cmake -E env CXXFLAGS="-O3" cmake .. # turn on aggressive compiler optimization
+make ray # depending on what system you're using, CMake may generate a Makefile or some other way to build the code
 ./ray scene_file.txt
 ```
 
