@@ -14,6 +14,7 @@
 #include "geom/Triangle.h"
 #include "geom/NormalTriangle.h"
 #include "geom/Circle.h"
+#include "geom/Ellipse.h"
 #include "parsing/SceneData.h"
 
 char* Parser::NextToken() {
@@ -450,6 +451,34 @@ SceneData Parser::ParseFile(const std::string& filename) {
         }
         catch (...) {
           throw ParseError("unable to parse circle arg(s) as type float", lineno);
+        }
+      }
+      // ellipse: x1 y1 z1 x2 y2 z2 d nx ny nz
+      else if (strcmp("ellipse:", tok) == 0) {
+        char* x1 = NextToken();
+        char* y1 = NextToken();
+        char* z1 = NextToken();
+        char* x2 = NextToken();
+        char* y2 = NextToken();
+        char* z2 = NextToken();
+        char* d = NextToken();
+        char* nx = NextToken();
+        char* ny = NextToken();
+        char* nz = NextToken();
+
+        if (!x1 || !y1 || !z1 || !x2 || !y2 || !z2 || !d || !nx || !ny || !nz) {
+          throw ParseError("missing arg(s) to ellipse command", lineno);
+        }
+
+        try {
+          Point3 f1(std::stof(x1), std::stof(y1), std::stof(z1));
+          Point3 f2(std::stof(x2), std::stof(y2), std::stof(z2));
+          Vector3 normal(std::stof(nx), std::stof(ny), std::stof(nz));
+
+          sdata.primitives.push_back(new Ellipse(f1, f2, std::stof(d), normal, curr_mat));
+        }
+        catch (...) {
+          throw ParseError("unable to parse ellipse arg(s) as type float", lineno);
         }
       }
       // Custom command
