@@ -92,6 +92,10 @@ Adds a triangle with normal interpolation to the scene. `v1`, `v2`, and `v3` are
 
 Adds a circle to the scene with center `(x, y, z)` and radius `r`. The normal of the circle is `(dx, dy, dz)`. The circle is 2D and double-sided like triangles created with the `triangle` command.
 
+#### `ellipse: x1 y1 z1 x2 y2 z2 d dx dy dz`
+
+Adds an ellipse to the scene. The ellipse has two foci, one at `(x1, y1, z1)` and the other at `(x2, y2, z2)`. The normal `(dx, dy, dz)` defines the direction of the 2D ellipse. A point on the plane of the ellipse is inside the ellipse if the sum of the distances from the foci to the point is less than or equal to the distance `d`. The ellipse is 2D and double-sided like triangles created with the `triangle` command. If you'd just like to create a circle, the `circle` command is probably the easiest way to do that.
+
 #### `ambient_light: r g b`
 
 Adds an ambient light to the scene with the given intensity. Ambient lights shine everywhere equally.
