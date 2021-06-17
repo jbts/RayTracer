@@ -109,6 +109,17 @@ int main(int argc, char* argv[]) {
   int rays_traced = 0;
   float last_update = 0.0f;
 
+  // If there are no primitives to trace, then the program can just return
+  // an image with just the background color
+  // This avoids creating a Scene with 0 primitives, which causes an infinite
+  // recursion due to BVH construction
+  if (sdata.primitives.size() == 0) {
+    Log::Info("no primitives to trace, so all done");
+    Log::Info("writing result image to file " + sdata.output_image);
+    img.Write(sdata.output_image);
+    return 0;
+  }
+
   Log::Info("constructing the scene");
   Scene scene = Scene(sdata.background_color, sdata.primitives);
   Log::Info("scene constructed -- tracing!");

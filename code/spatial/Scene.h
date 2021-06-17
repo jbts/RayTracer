@@ -18,6 +18,9 @@ class Scene {
     BVHNode* bvh_root_;
     
   public:
+    /// Creates a new scene
+    /// The scene must contain at least 1 primitive
+    /// If it doesn't, then there may be an infinite recursion when creating the underlying BVH
     Scene(const Color& background_color, const std::vector<Primitive*>& primitives);
     Color BackgroundColor() const { return background_color_; }
     
