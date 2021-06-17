@@ -1,6 +1,7 @@
 #include "image/Image.h"
 
 #include <string>
+#include <cctype> // for tolower()
 
 #include "stb_image/stb_image_write.h"
 #include "logging/Log.h"
@@ -56,40 +57,51 @@ void Image::Write(const std::string& filename) const {
   uint8_t* data = AsBytes();
 
   // Infer the format to write in based on the end of the filename
-  char lastc = filename.back();
+  size_t dot_index = filename.find_last_of('.');
 
-  if (lastc == 'g') { // jpg, jpeg, or png
-    char secondlastc = filename.at(filename.length() - 2);
-    if (secondlastc == 'n') { // png
-      Log::Debug("writing image to file '" + filename + "' in PNG format");
-      if (!stbi_write_png(filename.c_str(), width_, height_, 4, data, width_ * 4)) {
-          Log::Error("failed to write image to file '" + filename + "'");
-      }
-    }
-    else { // jpg or jpeg
-      // Write at 95% quality
-      Log::Debug("writing image to file '" + filename +"' in JPG format");
-      if (!stbi_write_jpg(filename.c_str(), width_, height_, 4, data, 95)) {
-          Log::Error("failed to write image to file '" + filename + "'");
-      }
-    }
-  }
-  else if (lastc == 'a') { // tga or targa
-    Log::Debug("writing image to file '" + filename + "' in TGA format");
-    if (!stbi_write_tga(filename.c_str(), width_, height_, 4, data)) {
-        Log::Error("failed to write image to file '" + filename + "'");
-    }
-  }
-  else if (lastc == 'p') { // bmp
-    Log::Debug("writing image to file '" + filename + "' in BMP format");
+  // No . found, so can't infer extension - default to BMP
+  if (dot_index == std::string::npos) {
+    Log::Warning("no image extension found: defaulting to BMP format for writing to file " + filename);
     if (!stbi_write_bmp(filename.c_str(), width_, height_, 4, data)) {
-        Log::Error("failed to write image to file '" + filename + "'");
+        Log::Error("failed to write image to file " + filename);
+    }
+    return;
+  }
+
+  std::string ext = filename.substr(dot_index);
+  for (int i = 0; i < ext.length(); i++) {
+    ext.at(i) = tolower(ext.at(i));
+  }
+
+  if (ext == ".png") {
+    Log::Debug("writing image to file " + filename + " in PNG format");
+      if (!stbi_write_png(filename.c_str(), width_, height_, 4, data, width_ * 4)) {
+        Log::Error("failed to write image to file " + filename);
+      }
+  }
+  else if (ext == ".jpg" || ext == ".jpeg") {
+    // Write at 95% quality
+    Log::Debug("writing image to file " + filename + " in JPG format");
+    if (!stbi_write_jpg(filename.c_str(), width_, height_, 4, data, 95)) {
+      Log::Error("failed to write image to file " + filename);
+    }
+  }
+  else if (ext == ".tga" || ext == ".targa") {
+    Log::Debug("writing image to file " + filename + " in TGA format");
+    if (!stbi_write_tga(filename.c_str(), width_, height_, 4, data)) {
+      Log::Error("failed to write image to file " + filename);
+    }
+  }
+  else if (ext == ".bmp") {
+    Log::Debug("writing image to file " + filename + " in BMP format");
+    if (!stbi_write_bmp(filename.c_str(), width_, height_, 4, data)) {
+      Log::Error("failed to write image to file " + filename);
     }
   }
   else { // default to bmp format, write a warning
-    Log::Warning("unrecognized extension: defaulting to BMP format for writing image to file '" + filename +"'");
+    Log::Warning("unrecognized extension: defaulting to BMP format for writing image to file " + filename);
     if (!stbi_write_bmp(filename.c_str(), width_, height_, 4, data)) {
-        Log::Error("failed to write image to file '" + filename + "'");
+      Log::Error("failed to write image to file " + filename);
     }
   }
 
