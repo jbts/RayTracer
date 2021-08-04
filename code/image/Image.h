@@ -40,6 +40,9 @@ class Image {
     /// in the range [0, 255], for RGBA
     /// Returns a pointer to a dynamically allocated list of bytes
     uint8_t* AsBytes() const;
+
+    /// Get the average luminance of the samples in this image
+    float AvgLum() const;
 };
 
 #endif
