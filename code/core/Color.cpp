@@ -8,6 +8,10 @@ Color::Color(float r, float g, float b) {
   b_ = ColorCompClamp(b);
 }
 
+float Color::Lum() const {
+  return 0.3f*r_ + 0.6f*g_ + 0.1f*b_;
+}
+
 float ColorCompClamp(float comp) {
   if (comp < 0) return 0;
   if (comp > 1) return 1;
