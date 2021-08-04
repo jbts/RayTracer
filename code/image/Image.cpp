@@ -121,9 +121,9 @@ uint8_t* Image::AsBytes() const {
   for (int y = 0; y < height_; y++) {
     for (int x = 0; x < width_; x++) {
       Color c = pixels_[y * width_ + x];
-      data[4 * (y * width_ + x)] = uint8_t(c.R() * 255 + 0.5);
-      data[4 * (y * width_ + x) + 1] = uint8_t(c.G() * 255 + 0.5);
-      data[4 * (y * width_ + x) + 2] = uint8_t(c.B() * 255 + 0.5);
+      data[4 * (y * width_ + x)] = uint8_t(ColorCompClamp(c.R()) * 255 + 0.5);
+      data[4 * (y * width_ + x) + 1] = uint8_t(ColorCompClamp(c.G()) * 255 + 0.5);
+      data[4 * (y * width_ + x) + 2] = uint8_t(ColorCompClamp(c.B()) * 255 + 0.5);
       data[4 * (y * width_ + x) + 3] = 255;
     }
   }
