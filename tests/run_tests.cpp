@@ -4,6 +4,9 @@
 // Include all of test files, which are all
 // header files using Catch2 test macros
 #include "core/test_Point3.h"
+#include "core/test_Color.h"
 
 #include "geom/test_Circle.h"
 #include "geom/test_Ellipse.h"
+
+#include "image/test_ToneMap.cpp"

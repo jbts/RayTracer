@@ -3,9 +3,13 @@
 #include <string>
 
 Color::Color(float r, float g, float b) {
-  r_ = ColorCompClamp(r);
-  g_ = ColorCompClamp(g);
-  b_ = ColorCompClamp(b);
+  r_ = r;
+  g_ = g;
+  b_ = b;
+}
+
+float Color::Lum() const {
+  return 0.3f*r_ + 0.6f*g_ + 0.1f*b_;
 }
 
 float ColorCompClamp(float comp) {

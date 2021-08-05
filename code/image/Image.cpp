@@ -4,6 +4,7 @@
 #include <cctype> // for tolower()
 
 #include "stb_image/stb_image_write.h"
+#include "image/ToneMap.h"
 #include "logging/Log.h"
 
 Image::Image(int width, int height) {
@@ -53,7 +54,7 @@ void Image::Write(const std::string& filename) const {
     Log::Error("output image file name '" + filename + "' is too short - nothing written");
     return;
   }
-
+  Log::Debug("Average luminance of image is " + std::to_string(AvgLum()));
   uint8_t* data = AsBytes();
 
   // Infer the format to write in based on the end of the filename
@@ -121,6 +122,7 @@ uint8_t* Image::AsBytes() const {
   for (int y = 0; y < height_; y++) {
     for (int x = 0; x < width_; x++) {
       Color c = pixels_[y * width_ + x];
+      c = ToneMapBasicClamp(c);
       data[4 * (y * width_ + x)] = uint8_t(c.R() * 255 + 0.5);
       data[4 * (y * width_ + x) + 1] = uint8_t(c.G() * 255 + 0.5);
       data[4 * (y * width_ + x) + 2] = uint8_t(c.B() * 255 + 0.5);
@@ -128,4 +130,22 @@ uint8_t* Image::AsBytes() const {
     }
   }
   return data;
+}
+
+float Image::AvgLum() const {
+  float total_lum = 0.0f;
+  int num_pixels = width_ * height_;
+
+  // An Image with no pixels has 0 average luminance (I guess)
+  if (num_pixels <= 0) {
+    return 0.0f;
+  }
+
+  for (int y = 0; y < height_; y++) {
+    for (int x = 0; x < width_; x++) {
+      total_lum += pixels_[y * width_ + x].Lum();
+    }
+  }
+
+  return total_lum / num_pixels;
 }

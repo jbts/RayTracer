@@ -16,6 +16,10 @@ class Color {
     float R() const { return r_; }
     float G() const { return g_; }
     float B() const { return b_; }
+
+    /// Compute the luminance of this Color, as
+    /// 0.3r + 0.6g + 0.1b
+    float Lum() const;
 };
 
 /// Clamp a color component to the range [0,1]
