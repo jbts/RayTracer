@@ -21,6 +21,32 @@ char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
 }
 
+float Parser::NextTokenAsFloat(int lineno) {
+  char* tok = NextToken();
+  if (!tok) {
+    throw ParseError("missing arg(s) to command", lineno);
+  }
+  try {
+    return std::stof(tok);
+  }
+  catch (...) {
+    throw ParseError("unable to convert arg(s) to type float", lineno);
+  }
+}
+
+int Parser::NextTokenAsInt(int lineno) {
+  char* tok = NextToken();
+  if (!tok) {
+    throw ParseError("missing arg(s) to command", lineno);
+  }
+  try {
+    return std::stoi(tok);
+  }
+  catch (...) {
+    throw ParseError("unable to convert arg(s) to type int", lineno);
+  }
+}
+
 SceneData Parser::ParseFile(const std::string& filename) {
     SceneData sdata;
 
@@ -58,21 +84,12 @@ SceneData Parser::ParseFile(const std::string& filename) {
 
       // film_resolution: width height
       if (strcmp("film_resolution:", tok) == 0) {
-        char* w = NextToken();
-        char* h = NextToken();
-
-        if (!w || !h) {
-          throw ParseError("missing arg(s) to film_resolution command", lineno);
-        }
+        int w = NextTokenAsInt(lineno);
+        int h = NextTokenAsInt(lineno);
 
         // Width and height could be negative here, so just take their absolute values
-        try {
-          sdata.film_width = abs(std::stoi(w));
-          sdata.film_height = abs(std::stoi(h));
-        }
-        catch (...) {
-          throw ParseError("unable to convert film_resolution arg(s) to type int", lineno);
-        }
+        sdata.film_width = abs(w);
+        sdata.film_height = abs(h);
 
         Log::Debug("parsed new film dimensions " + std::to_string(sdata.film_width) + " by " + std::to_string(sdata.film_height));
       }
@@ -81,7 +98,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
         char* name = NextToken();
 
         if (!name) {
-          throw ParseError("missing arg to output_image command", lineno);
+          throw ParseError("missing arg to command", lineno);
         }
 
         sdata.output_image = std::string(name);
@@ -89,417 +106,245 @@ SceneData Parser::ParseFile(const std::string& filename) {
       }
       // sphere: x y z r
       else if (strcmp("sphere:", tok) == 0) {
-        char* x = NextToken();
-        char* y = NextToken();
-        char* z = NextToken();
-        char* r = NextToken();
+        float x = NextTokenAsFloat(lineno);
+        float y = NextTokenAsFloat(lineno);
+        float z = NextTokenAsFloat(lineno);
+        float r = NextTokenAsFloat(lineno);
 
-        if (!x || !y || !z || !r) {
-          throw ParseError("missing arg(s) to sphere command", lineno);
-        }
-
-        try {
-          Point3 pos(std::stof(x), std::stof(y), std::stof(z));
-          sdata.primitives.push_back(new Sphere(pos, std::stof(r), curr_mat));
-        }
-        catch (...) {
-          throw ParseError("unable to convert sphere arg(s) to type float", lineno);
-        }
+        Point3 pos(x, y, z);
+        sdata.primitives.push_back(new Sphere(pos, r, curr_mat));
       }
       // camera_pos: px py pz
       else if (strcmp("camera_pos:", tok) == 0) {
-        char* px = NextToken();
-        char* py = NextToken();
-        char* pz = NextToken();
+        float px = NextTokenAsFloat(lineno);
+        float py = NextTokenAsFloat(lineno);
+        float pz = NextTokenAsFloat(lineno);
 
-        if (!px || !py || !pz) {
-          throw ParseError("missing args to camera_pos command", lineno);
-        }
-
-        try {
-          sdata.camera_pos = Point3(std::stof(px), std::stof(py), std::stof(pz));
-        }
-        catch (...) {
-          throw ParseError("unable to convert camera_pos arg(s) to type float", lineno);
-        }
+        sdata.camera_pos = Point3(px, py, pz);
 
         Log::Debug("parsed new camera position " + ToString(sdata.camera_pos)); 
       }
       // camera_fwd: dx dy dz
       else if (strcmp("camera_fwd:", tok) == 0) {
-        char* dx = NextToken();
-        char* dy = NextToken();
-        char* dz = NextToken();
+        float dx = NextTokenAsFloat(lineno);
+        float dy = NextTokenAsFloat(lineno);
+        float dz = NextTokenAsFloat(lineno);
 
-        if (!dx || !dy || !dz) {
-          throw ParseError("missing arg(s) to camera_fwd command", lineno);
-        }
-
-        try {
-          // Make sure to normalize input vector
-          sdata.camera_fwd = Vector3(std::stof(dx), std::stof(dy), std::stof(dz)).Normalized();
-        }
-        catch (...) {
-          throw ParseError("unable to convert camera_fwd arg(s) to type float", lineno);
-        }
+        // Make sure to normalize input vector
+        sdata.camera_fwd = Vector3(dx, dy, dz).Normalized();
 
         Log::Debug("parsed new normalized camera forward direction " + ToString(sdata.camera_fwd));
       }
       // camera_up: ux uy uz
       else if (strcmp("camera_up:", tok) == 0) {
-        char* ux = NextToken();
-        char* uy = NextToken();
-        char* uz = NextToken();
+        float ux = NextTokenAsFloat(lineno);
+        float uy = NextTokenAsFloat(lineno);
+        float uz = NextTokenAsFloat(lineno);
 
-        if (!ux || !uy || !uz) {
-          throw ParseError("missing arg(s) to camera_up command", lineno);
-        }
-
-        try {
-          // Normalize input vector
-          sdata.camera_up = Vector3(std::stof(ux), std::stof(uy), std::stof(uz)).Normalized();
-        }
-        catch (...) {
-          throw ParseError("unable to convert camera_up arg(s) to type float", lineno);
-        }
+        // Normalize input vector
+        sdata.camera_up = Vector3(ux, uy, uz).Normalized();
 
         Log::Debug("parsed new normalized camera up direction " + ToString(sdata.camera_up));
       }
       // camera_fov_ha: ha
       else if (strcmp("camera_fov_ha:", tok) == 0) {
-        char* ha = NextToken();
+        float ha = NextTokenAsFloat(lineno);
 
-        if (!ha) {
-          throw ParseError("missing arg to camera_fov_ha command", lineno);
-        }
-
-        try {
-          sdata.camera_fov_ha = std::stof(ha);
-        }
-        catch (...) {
-          throw ParseError("unable to convert camera_fov_ha arg to type float", lineno);
-        }
+        sdata.camera_fov_ha = ha;
 
         Log::Debug("parsed new camera half angle FOV (in degrees) " + std::to_string(sdata.camera_fov_ha));
       }
       // background: r g b
       else if (strcmp("background:", tok) == 0) {
-        char* r = NextToken();
-        char* g = NextToken();
-        char* b = NextToken();
+        float r = NextTokenAsFloat(lineno);
+        float g = NextTokenAsFloat(lineno);
+        float b = NextTokenAsFloat(lineno);
 
-        if (!r || !g || !b) {
-          throw ParseError("missing arg(s) to background command", lineno);
-        }
-
-        try {
-          sdata.background_color = Color(std::stof(r), std::stof(g), std::stof(b));
-        }
-        catch (...) {
-          throw ParseError("unable to convert background arg(s) to type float", lineno);
-        }
-
+        sdata.background_color = Color(r, g, b);
+        
         Log::Debug("parsed new background color " + ToString(sdata.background_color));
       }
       // material: ar ag ab dr dg db sr sg sb ns tr tg tb ior
       else if (strcmp("material:", tok) == 0) {
-        char* ar = NextToken();
-        char* ag = NextToken();
-        char* ab = NextToken();
-        char* dr = NextToken();
-        char* dg = NextToken();
-        char* db = NextToken();
-        char* sr = NextToken();
-        char* sg = NextToken();
-        char* sb = NextToken();
-        char* ns = NextToken();
-        char* tr = NextToken();
-        char* tg = NextToken();
-        char* tb = NextToken();
-        char* ior = NextToken();
-
-        if (!ar || !ag || !ab || !dr || !dg || !db || !sr || !sg || !sb || !ns || !tr || !tg || !tb || !ior) {
-          throw ParseError("missing arg(s) to material command", lineno);
-        }
+        float ar = NextTokenAsFloat(lineno);
+        float ag = NextTokenAsFloat(lineno);
+        float ab = NextTokenAsFloat(lineno);
+        float dr = NextTokenAsFloat(lineno);
+        float dg = NextTokenAsFloat(lineno);
+        float db = NextTokenAsFloat(lineno);
+        float sr = NextTokenAsFloat(lineno);
+        float sg = NextTokenAsFloat(lineno);
+        float sb = NextTokenAsFloat(lineno);
+        float ns = NextTokenAsFloat(lineno);
+        float tr = NextTokenAsFloat(lineno);
+        float tg = NextTokenAsFloat(lineno);
+        float tb = NextTokenAsFloat(lineno);
+        float ior = NextTokenAsFloat(lineno);
 
         // Update the current material state
-        try {
-          Color ambient(std::stof(ar), std::stof(ag), std::stof(ab));
-          Color diffuse(std::stof(dr), std::stof(dg), std::stof(db));
-          Color specular(std::stof(sr), std::stof(sg), std::stof(sb));
-          Color transmissive(std::stof(tr), std::stof(tg), std::stof(tb));
-          curr_mat = new Material(ambient, diffuse, specular, std::stof(ns), transmissive, std::stof(ior));
-        }
-        catch (...) {
-          throw ParseError("unable to parse material arg(s) as type float", lineno);
-        }
+        Color ambient(ar, ag, ab);
+        Color diffuse(dr, dg, db);
+        Color specular(sr, sg, sb);
+        Color transmissive(tr, tg, tb);
+        curr_mat = new Material(ambient, diffuse, specular, ns, transmissive, ior);
       }
       // ambient_light: r g b
       else if (strcmp("ambient_light:", tok) == 0) {
-        char* r = NextToken();
-        char* g = NextToken();
-        char* b = NextToken();
+        float r = NextTokenAsFloat(lineno);
+        float g = NextTokenAsFloat(lineno);
+        float b = NextTokenAsFloat(lineno);
 
-        if (!r || !g || !b) {
-          throw ParseError("missing arg(s) to ambient_light command", lineno);
-        }
-
-        try {
-          Intensity ambient = Intensity(std::stof(r), std::stof(g), std::stof(b));
-          sdata.lights.push_back(new AmbientLight(ambient));
-        }
-        catch (...) {
-          throw ParseError("unable to parse ambient_light arg(s) as type float", lineno);
-        }
+        Intensity ambient = Intensity(r, g, b);
+        sdata.lights.push_back(new AmbientLight(ambient));
 
         Log::Debug("parsed an ambient light to add to the scene");
       }
       // point_light: r g b x y z
       else if (strcmp("point_light:", tok) == 0) {
-        char* r = NextToken();
-        char* g = NextToken();
-        char* b = NextToken();
-        char* x = NextToken();
-        char* y = NextToken();
-        char* z = NextToken();
+        float r = NextTokenAsFloat(lineno);
+        float g = NextTokenAsFloat(lineno);
+        float b = NextTokenAsFloat(lineno);
+        float x = NextTokenAsFloat(lineno);
+        float y = NextTokenAsFloat(lineno);
+        float z = NextTokenAsFloat(lineno);
 
-        if (!r || !g || !b || !x || !y || !z) {
-          throw ParseError("missing arg(s) to point_light command", lineno);
-        }
-
-        try {
-          Point3 pos(std::stof(x), std::stof(y), std::stof(z));
-          Intensity intensity(std::stof(r), std::stof(g), std::stof(b));
-          sdata.lights.push_back(new PointLight(pos, intensity));
-        }
-        catch (...) {
-          throw ParseError("unable to parse point light arg(s) as type float", lineno);
-        }
+        Point3 pos(x, y, z);
+        Intensity intensity(r, g, b);
+        sdata.lights.push_back(new PointLight(pos, intensity));
 
         Log::Debug("parsed a point light to add to the scene");
       }
       // directional_light: r g b x y z
       else if (strcmp("directional_light:", tok) == 0) {
-        char* r = NextToken();
-        char* g = NextToken();
-        char* b = NextToken();
-        char* x = NextToken();
-        char* y = NextToken();
-        char* z = NextToken();
+        float r = NextTokenAsFloat(lineno);
+        float g = NextTokenAsFloat(lineno);
+        float b = NextTokenAsFloat(lineno);
+        float x = NextTokenAsFloat(lineno);
+        float y = NextTokenAsFloat(lineno);
+        float z = NextTokenAsFloat(lineno);
 
-        if (!r || !g || !b || !x || !y || !z) {
-          throw ParseError("missing arg(s) to directional_light command", lineno);
-        }
-
-        try {
-          Vector3 dir(std::stof(x), std::stof(y), std::stof(z));
-          Intensity intensity(std::stof(r), std::stof(g), std::stof(b));
-          sdata.lights.push_back(new DirectionalLight(dir, intensity));
-        }
-        catch (...) {
-          throw ParseError("unable to parse directional light arg(s) as type float", lineno);
-        }
+        Vector3 dir(x, y, z);
+        Intensity intensity(r, g, b);
+        sdata.lights.push_back(new DirectionalLight(dir, intensity));
 
         Log::Debug("parsed a directional light to add to the scene");
       }
       // spot_light: r g b px py pz dx dy dz angle1 angle2
       else if (strcmp("spot_light:", tok) == 0) {
-        char* r = NextToken();
-        char* g = NextToken();
-        char* b = NextToken();
-        char* px = NextToken();
-        char* py = NextToken();
-        char* pz = NextToken();
-        char* dx = NextToken();
-        char* dy = NextToken();
-        char* dz = NextToken();
-        char* angle1 = NextToken();
-        char* angle2 = NextToken();
+        float r = NextTokenAsFloat(lineno);
+        float g = NextTokenAsFloat(lineno);
+        float b = NextTokenAsFloat(lineno);
+        float px = NextTokenAsFloat(lineno);
+        float py = NextTokenAsFloat(lineno);
+        float pz = NextTokenAsFloat(lineno);
+        float dx = NextTokenAsFloat(lineno);
+        float dy = NextTokenAsFloat(lineno);
+        float dz = NextTokenAsFloat(lineno);
+        float angle1 = NextTokenAsFloat(lineno);
+        float angle2 = NextTokenAsFloat(lineno);
 
-        if (!r || !g  || !b || !px || !py || !pz || !dx || !dy || !dz || !angle1 || !angle2) {
-          throw ParseError("missing arg(s) to spot_light command", lineno);
-        }
-
-        try {
-          Intensity intensity(std::stof(r), std::stof(g), std::stof(b));
-          Point3 pos(std::stof(px), std::stof(py), std::stof(pz));
-          Vector3 dir(std::stof(dx), std::stof(dy), std::stof(dz));
-          sdata.lights.push_back(new SpotLight(pos, dir, intensity, std::stof(angle1), std::stof(angle2)));
-        }
-        catch (...) {
-          throw ParseError("unable to parse spot light arg(s) as type float", lineno);
-        }
+        Intensity intensity(r, g, b);
+        Point3 pos(px, py, pz);
+        Vector3 dir(dx, dy, dz);
+        sdata.lights.push_back(new SpotLight(pos, dir, intensity, angle1, angle2));
 
         Log::Debug("parsed a spot light to add to the scene");
       }
       // max_depth: n
       else if (strcmp("max_depth:", tok) == 0) {
-        char* n = NextToken();
+        int n = NextTokenAsInt(lineno);
 
-        if (!n) {
-          throw ParseError("missing arg to max_depth command", lineno);
-        }
-
-        try {
-          sdata.max_recurse_depth = std::stoi(n);
-        }
-        catch (...) {
-          throw ParseError("unable to parse max depth arg as type int", lineno);
-        }
+        sdata.max_recurse_depth = n;
 
         Log::Debug("parsed new maximum recurse depth " + std::to_string(sdata.max_recurse_depth));
       }
       // vertex: x y z
       else if (strcmp("vertex:", tok) == 0) {
-        char* x = NextToken();
-        char* y = NextToken();
-        char* z = NextToken();
+        float x = NextTokenAsFloat(lineno);
+        float y = NextTokenAsFloat(lineno);
+        float z = NextTokenAsFloat(lineno);
 
-        if (!x || !y || !z) {
-          throw ParseError("missing arg(s) to vertex command", lineno);
-        }
-
-        try {
-          Point3 p(std::stof(x), std::stof(y), std::stof(z));
-          // Add this vertex to the triangle vertex pool
-          Triangle::AddVertex(p);
-        }
-        catch (...) {
-          throw ParseError("unable to parse vertex arg(s) as type float", lineno);
-        }
+        Point3 p(x, y, z);
+        // Add this vertex to the triangle vertex pool
+        Triangle::AddVertex(p);
       }
       // normal: x y z
       else if (strcmp("normal:", tok) == 0) {
-        char* x = NextToken();
-        char* y = NextToken();
-        char* z = NextToken();
+        float x = NextTokenAsFloat(lineno);
+        float y = NextTokenAsFloat(lineno);
+        float z = NextTokenAsFloat(lineno);
 
-        if (!x || !y || !z) {
-          throw ParseError("missing arg(s) to normal command", lineno);
-        }
-
-        try {
-          Vector3 n(std::stof(x), std::stof(y), std::stof(z));
-          // Add this normal to the triangle normal pool
-          NormalTriangle::AddNormal(n);
-        }
-        catch (...) {
-          throw ParseError("unable to parse normal command arg(s) as type float", lineno);
-        }
+        Vector3 n(x, y, z);
+        // Add this normal to the triangle normal pool
+        NormalTriangle::AddNormal(n);
       }
       // triangle: v1 v2 v3
       else if (strcmp("triangle:", tok) == 0) {
-        char* v1 = NextToken();
-        char* v2 = NextToken();
-        char* v3 = NextToken();
+        // v1, v2, v3 are indices, so type int
+        int v1 = NextTokenAsInt(lineno);
+        int v2 = NextTokenAsInt(lineno);
+        int v3 = NextTokenAsInt(lineno);
 
-        if (!v1 || !v2 || !v3) {
-          throw ParseError("missing arg(s) to triangle command", lineno);
-        }
-
-        try {
-          // v1, v2, v3 are indices, so type int
-          sdata.primitives.push_back(new Triangle(std::stoi(v1), std::stoi(v2), std::stoi(v3), curr_mat));
-        }
-        catch (...) {
-          throw ParseError("unable to parse triangle arg(s) as type int", lineno);
-        }
+        sdata.primitives.push_back(new Triangle(v1, v2, v3, curr_mat));
       }
       // normal_triangle: v1 v2 v3 n1 n2 n3
       else if (strcmp("normal_triangle:", tok) == 0) {
-        char* v1 = NextToken();
-        char* v2 = NextToken();
-        char* v3 = NextToken();
-        char* n1 = NextToken();
-        char* n2 = NextToken();
-        char* n3 = NextToken();
+        // v1, v2, v3, n1, n2, n3 are indices, so type int
+        int v1 = NextTokenAsInt(lineno);
+        int v2 = NextTokenAsInt(lineno);
+        int v3 = NextTokenAsInt(lineno);
+        int n1 = NextTokenAsInt(lineno);
+        int n2 = NextTokenAsInt(lineno);
+        int n3 = NextTokenAsInt(lineno);
 
-        if (!v1 || !v2 || !v3 || !n1 || !n2 || !n3) {
-          throw ParseError("missing arg(s) to normal_triangle command", lineno);
-        }
-
-        try {
-          // v1, v2, v3, n1, n2, n3 are indices, so type int
-          Triangle* tri = new NormalTriangle(std::stoi(v1), std::stoi(v2), std::stoi(v3), std::stoi(n1), std::stoi(n2), std::stoi(n3), curr_mat);
-          sdata.primitives.push_back(tri);
-        }
-        catch (...) {
-          throw ParseError("unable to parse normal_triangle arg(s) as type int", lineno);
-        }
+        Triangle* tri = new NormalTriangle(v1, v2, v3, n1, n2, n3, curr_mat);
+        sdata.primitives.push_back(tri);
       }
       // circle: x y z r nx ny nz
       else if (strcmp("circle:", tok) == 0) {
-        Log::Debug("found circle command");
-        char* x = NextToken();
-        char* y = NextToken();
-        char* z = NextToken();
-        char* r = NextToken();
-        char* nx = NextToken();
-        char* ny = NextToken();
-        char* nz = NextToken();
+        float x = NextTokenAsFloat(lineno);
+        float y = NextTokenAsFloat(lineno);
+        float z = NextTokenAsFloat(lineno);
+        float r = NextTokenAsFloat(lineno);
+        float nx = NextTokenAsFloat(lineno);
+        float ny = NextTokenAsFloat(lineno);
+        float nz = NextTokenAsFloat(lineno);
 
-        if (!x || !y || !z || !r || !nx || !ny || !nz) {
-          throw ParseError("missing arg(s) to circle command", lineno);
-        }
+        Point3 center(x, y, z);
+        float radius = r;
+        Vector3 normal(nx, ny, nz);
 
-        try {
-          Point3 center(std::stof(x), std::stof(y), std::stof(z));
-          float radius = std::stof(r);
-          Vector3 normal(std::stof(nx), std::stof(ny), std::stof(nz));
-
-          sdata.primitives.push_back(new Circle(center, radius, normal, curr_mat));
-        }
-        catch (...) {
-          throw ParseError("unable to parse circle arg(s) as type float", lineno);
-        }
+        sdata.primitives.push_back(new Circle(center, radius, normal, curr_mat));
       }
       // ellipse: x1 y1 z1 x2 y2 z2 d nx ny nz
       else if (strcmp("ellipse:", tok) == 0) {
-        char* x1 = NextToken();
-        char* y1 = NextToken();
-        char* z1 = NextToken();
-        char* x2 = NextToken();
-        char* y2 = NextToken();
-        char* z2 = NextToken();
-        char* d = NextToken();
-        char* nx = NextToken();
-        char* ny = NextToken();
-        char* nz = NextToken();
+        float x1 = NextTokenAsFloat(lineno);
+        float y1 = NextTokenAsFloat(lineno);
+        float z1 = NextTokenAsFloat(lineno);
+        float x2 = NextTokenAsFloat(lineno);
+        float y2 = NextTokenAsFloat(lineno);
+        float z2 = NextTokenAsFloat(lineno);
+        float d = NextTokenAsFloat(lineno);
+        float nx = NextTokenAsFloat(lineno);
+        float ny = NextTokenAsFloat(lineno);
+        float nz = NextTokenAsFloat(lineno);
 
-        if (!x1 || !y1 || !z1 || !x2 || !y2 || !z2 || !d || !nx || !ny || !nz) {
-          throw ParseError("missing arg(s) to ellipse command", lineno);
-        }
+        Point3 f1(x1, y1, z1);
+        Point3 f2(x2, y2, z2);
+        Vector3 normal(nx, ny, nz);
 
-        try {
-          Point3 f1(std::stof(x1), std::stof(y1), std::stof(z1));
-          Point3 f2(std::stof(x2), std::stof(y2), std::stof(z2));
-          Vector3 normal(std::stof(nx), std::stof(ny), std::stof(nz));
-
-          sdata.primitives.push_back(new Ellipse(f1, f2, std::stof(d), normal, curr_mat));
-        }
-        catch (...) {
-          throw ParseError("unable to parse ellipse arg(s) as type float", lineno);
-        }
+        sdata.primitives.push_back(new Ellipse(f1, f2, d, normal, curr_mat));
       }
       // Custom command
       // sample_jitter: n
       // Indicate that the program should sample with a jittered supersampling strategy
       // n is an integer that specifies the number of samples to take per cell/pixel
       else if (strcmp("sample_jitter:", tok) == 0) {
-        char* n = NextToken();
+        int n = NextTokenAsInt(lineno);
 
-        if (!n) {
-          throw ParseError("missing arg to sample_jitter command", lineno);
-        }
-
-        try {
-          sdata.sample_strat = SAMPLE_STRATEGY_JITTER;
-          // Require at least one sample per pixel for sanity
-          sdata.num_samples_jitter = std::max(1, std::stoi(n));
-        }
-        catch (...) {
-          throw ParseError("unable to parse sample jitter arg as type int", lineno);
-        }
+        sdata.sample_strat = SAMPLE_STRATEGY_JITTER;
+        // Require at least one sample per pixel for sanity
+        sdata.num_samples_jitter = std::max(1, n);
 
         Log::Debug("parsed sample strategy jittered with " + std::to_string(sdata.num_samples_jitter) + " samples per pixel");
       }

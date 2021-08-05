@@ -31,7 +31,17 @@ class Parser {
     /// Gets the next token from the string being parsed using strtok()
     /// Should only be called after at least one previous call to strtok()
     char* NextToken();
-  
+
+    /// Calls NextToken() and tries to interpret the result as a float
+    /// Throws a ParseError if the token is null or can't be converted
+    /// to a float
+    float NextTokenAsFloat(int lineno);
+
+    /// Calls NextToken() and tries to interpret the result as an int
+    /// Throws a ParseError if the token is null or can't be converted
+    /// to an int
+    int NextTokenAsInt(int lineno); 
+
   public:
     Parser() : delim_(" "), max_line_len_(512) {}
     
