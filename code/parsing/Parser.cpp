@@ -21,6 +21,32 @@ char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
 }
 
+float Parser::NextTokenAsFloat(int lineno) {
+  char* tok = NextToken();
+  if (!tok) {
+    throw ParseError("missing arg(s) to command", lineno);
+  }
+  try {
+    return std::stof(tok);
+  }
+  catch (...) {
+    throw ParseError("unable to convert arg(s) to type float", lineno);
+  }
+}
+
+int Parser::NextTokenAsInt(int lineno) {
+  char* tok = NextToken();
+  if (!tok) {
+    throw ParseError("missing arg(s) to command", lineno);
+  }
+  try {
+    return std::stoi(tok);
+  }
+  catch (...) {
+    throw ParseError("unable to convert arg(s) to type int", lineno);
+  }
+}
+
 SceneData Parser::ParseFile(const std::string& filename) {
     SceneData sdata;
 
@@ -58,21 +84,12 @@ SceneData Parser::ParseFile(const std::string& filename) {
 
       // film_resolution: width height
       if (strcmp("film_resolution:", tok) == 0) {
-        char* w = NextToken();
-        char* h = NextToken();
-
-        if (!w || !h) {
-          throw ParseError("missing arg(s) to film_resolution command", lineno);
-        }
+        int w = NextTokenAsInt(lineno);
+        int h = NextTokenAsInt(lineno);
 
         // Width and height could be negative here, so just take their absolute values
-        try {
-          sdata.film_width = abs(std::stoi(w));
-          sdata.film_height = abs(std::stoi(h));
-        }
-        catch (...) {
-          throw ParseError("unable to convert film_resolution arg(s) to type int", lineno);
-        }
+        sdata.film_width = abs(w);
+        sdata.film_height = abs(h);
 
         Log::Debug("parsed new film dimensions " + std::to_string(sdata.film_width) + " by " + std::to_string(sdata.film_height));
       }
