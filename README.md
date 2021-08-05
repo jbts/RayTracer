@@ -4,17 +4,17 @@
 
 ## Overview
 
-This is a raytracer that I built in a graphics class during my final semester
+This is a raytracer that I started in a graphics class during my final semester
 at the University of Minnesota in the spring of 2021. I've put a lot of work
 into this, so I'd like to showcase it for anyone who'd like to see it.
 
 With guidance from our professor Stephen Guy, the students in this class spent
-three weeks creating raytracers. This is my implementation, which supports lots
-of different cool features, like
+three weeks creating raytracers. This is my implementation, which has grown since then
+and supports lots of different cool features, like
 
 - Arbitrary camera position and direction
-- Arbitrary spheres and triangles with RGB colors
-- Point lights, directional lights, and ambient lights
+- Arbitrary spheres, triangles, circles, and ellipses with RGB colors
+- Point lights, directional lights, spot lights, and ambient lights
 - Ambient, diffuse, and specular (Blinn-Phong) lighting
 - Interpolation of triangle normals for smooth lighting
 - Shadows
@@ -40,7 +40,7 @@ make ray # depending on what system you're using, CMake may generate a Makefile 
 ./ray scene_file.txt
 ```
 
-This project was built and tested on Ubuntu 18.04, so I don't know how it runs
+This project was built and tested on Ubuntu 18.04, so I don't know exactly how it runs
 on different OSes or different versions of Linux (but it shouldn't have many
 issues between versions of Linux as far as I'm aware).
 
@@ -57,8 +57,7 @@ some bugs here and there. `images/Refract` contains example images for refractio
 which I attempted but didn't get working correctly.
 
 Some of my personal favorites are the watch images in `images/Challenge`. This
-watch is incredibly detailed, and the raytracer took about 30 minutes to trace
-it! You can see the highest quality watch image above.
+watch is incredibly detailed. You can see the highest quality watch image above.
 
 Here are some more highlights from the `images` directory.
 
