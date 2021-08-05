@@ -8,3 +8,5 @@
 
 #include "geom/test_Circle.h"
 #include "geom/test_Ellipse.h"
+
+#include "image/test_ToneMap.cpp"
