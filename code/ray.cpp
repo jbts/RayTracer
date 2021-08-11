@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
   }
 
   Log::Info("making image of size " + std::to_string(sdata.film_width) + " by " + std::to_string(sdata.film_height));
-  // Color all the pixels black at first
+  // Color all the pixels with the background color at first
   Image img(sdata.film_width, sdata.film_height);
    for (int y = 0; y < img.Height(); y++) {
     for (int x = 0; x < img.Width(); x++) {
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
   int rays_traced = 0;
   float last_update = 0.0f;
 
-  // If there are no primitives to trace, then the program can just return
+  // If there are no primitives to trace, then the program can return
   // an image with just the background color
   // This avoids creating a Scene with 0 primitives, which causes an infinite
   // recursion due to BVH construction
