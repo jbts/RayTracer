@@ -10,7 +10,7 @@
 #include "raygen/PixelTraceData.h"
 
 float ViewFrame::EyeToFrameDistance() const {
-  // tan(half_angle_fov_) = (height_ / 2) / distance
+  // Solving the equation tan(half_angle_fov_) = (height_ / 2) / distance
   return (float)height_ / (2 * tanf(half_angle_fov_ * M_PI / 180.0));
 }
 
