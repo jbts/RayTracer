@@ -10,6 +10,8 @@
 #include "light/Material.h"
 #include "spatial/XYZBounds.h"
 
+/// A 2D ellipse
+/// Can think of it as an ellipse cut out of a plane
 class Ellipse : public Primitive {
   private:
     Point3 focus1_;
