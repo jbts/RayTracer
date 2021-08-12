@@ -10,7 +10,7 @@
 
 // Compute bounds and sort primitives by minimum x value, then
 // call ConstructBVH(primitives, bounds) to create the BVH
-BVHNode* ConstructBVH(std::vector<Primitive*> primitives) {
+BVHNode* BVHNode::ConstructBVH(std::vector<Primitive*> primitives) {
   Log::Debug("constructing BVH - preprocessing step");
   std::vector<XYZBounds> bounds;
 
@@ -53,7 +53,7 @@ BVHNode* ConstructBVH(std::vector<Primitive*> primitives) {
   return ConstructBVH(primitives, bounds);
 }
 
-BVHNode* ConstructBVH(std::vector<Primitive*> primitives, std::vector<XYZBounds> bounds) {
+BVHNode* BVHNode::ConstructBVH(std::vector<Primitive*> primitives, std::vector<XYZBounds> bounds) {
   // We can assume that primitives are sorted by bounds.MinX()
   size_t num_primitives = primitives.size();
   if (num_primitives == 1) {
