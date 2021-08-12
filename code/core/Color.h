@@ -3,7 +3,7 @@
 
 #include <string>
 
-/// An RGB color with components in the range [0,1]
+/// An RGB color with components in the range [0,max_float_value)
 class Color {
   private:
     float r_;
@@ -17,8 +17,7 @@ class Color {
     float G() const { return g_; }
     float B() const { return b_; }
 
-    /// Compute the luminance of this Color, as
-    /// 0.3r + 0.6g + 0.1b
+    /// Compute the luminance of this Color as 0.3r + 0.6g + 0.1b
     float Lum() const;
 };
 
@@ -29,19 +28,15 @@ float ColorCompClamp(float comp);
 Color ColorLerp(const Color& start, const Color& target, float t);
 
 /// Add two colors in a component-wise fashion
-/// Useful for lighting calculations
 Color operator+(const Color& c, const Color& d);
 
 /// Multiply two colors in a component-wise fashion
-/// Useful for lighting calculations
 Color operator*(const Color& c, const Color& d);
 
 /// Multiply a color by a scalar in a component-wise fashion
-/// Useful for lighting calculations
 Color operator*(const Color& c, float s);
 
 /// Multiply a color by a scalar in a component-wise fashion
-/// Useful for lighting calculations
 Color operator*(float s, const Color& c);
 
 /// Convert a color to a string describing the color
