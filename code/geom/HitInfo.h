@@ -4,7 +4,7 @@
 #include "core/Vector3.h"
 #include "light/Material.h"
 
-/// Holds information about the intersection(s) of a ray and another object
+/// Holds information about the possible intersection of a ray and another object
 class HitInfo {
   private:
     bool did_intersect_;

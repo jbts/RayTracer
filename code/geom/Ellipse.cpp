@@ -28,7 +28,7 @@ HitInfo Ellipse::FindIntersection(const Ray& ray) const {
   // Check that the ray hits the ellipse
   float d_check = (focus1_ - intersection_point).Mag() + (focus2_ - intersection_point).Mag();
   if (d_check <= d_) {
-    // Make sure the normal of the ellipse points opposite the direciton
+    // Make sure the normal of the ellipse points opposite the direction
     // of the incoming ray
     if (Dot(ray.Dir(), normal_) > 0) {
       return HitInfo(true, plane_hit_info.Time(), -1 * normal_, m_);

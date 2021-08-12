@@ -130,7 +130,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
         float dy = NextTokenAsFloat(lineno);
         float dz = NextTokenAsFloat(lineno);
 
-        // Make sure to normalize input vector
+        // Normalize input vector
         sdata.camera_fwd = Vector3(dx, dy, dz).Normalized();
 
         Log::Debug("parsed new normalized camera forward direction " + ToString(sdata.camera_fwd));
@@ -335,10 +335,7 @@ SceneData Parser::ParseFile(const std::string& filename) {
 
         sdata.primitives.push_back(new Ellipse(f1, f2, d, normal, curr_mat));
       }
-      // Custom command
       // sample_jitter: n
-      // Indicate that the program should sample with a jittered supersampling strategy
-      // n is an integer that specifies the number of samples to take per cell/pixel
       else if (strcmp("sample_jitter:", tok) == 0) {
         int n = NextTokenAsInt(lineno);
 

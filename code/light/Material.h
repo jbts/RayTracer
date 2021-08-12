@@ -28,6 +28,7 @@ class Material {
     /// Get the index of refraction of the material
     float IOR() const { return ior_; }
 
+    /// Get the "base material", which is just a material with some default values
     static const Material* BaseMat() { return &base_mat_; }
 };
 

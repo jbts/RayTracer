@@ -4,7 +4,7 @@
 #include "core/Color.h"
 
 /// Intensity of a light, with red, green, and blue components
-/// Different from a color in that the components aren't clamped to any particular values
+/// The components aren't clamped to any particular values
 /// So a really bright light might have components (50, 50, 50), for example
 class Intensity {
   private:
@@ -23,20 +23,16 @@ class Intensity {
 
 /// Multiply a color by an intensity in a component-wise fashion
 /// The result is a color
-/// Useful for lighting computations
 Color operator*(const Intensity& i, const Color& c);
 
 /// Multiply a color by an intensity in a component-wise fashion
 /// The result is a color
-/// Useful for lighting computations
 Color operator*(const Color& c, const Intensity& i);
 
 /// Multiply an intensity by a scalar in a component-wise fashion
-/// Useful for lighting computations
 Intensity operator*(const Intensity& i, float s);
 
 /// Multiply an intensity by a scalar in a component-wise fashion
-/// Useful for lighting computations
 Intensity operator*(float s, const Intensity& i);
 
 #endif

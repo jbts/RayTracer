@@ -9,6 +9,8 @@
 #include "geom/HitInfo.h"
 #include "spatial/Scene.h"
 
+/// An ambient light source
+/// Shines equally in all places
 class AmbientLight : public Light {
   private:
     Intensity i_;
@@ -19,9 +21,6 @@ class AmbientLight : public Light {
 
     Intensity GetIntensity() const { return i_; }
 
-    /// Compute the color contribution of this light at the intersection point
-    /// Since this light is ambient, it affects every point the same amount
-    /// based on its intensity
     Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 };
 

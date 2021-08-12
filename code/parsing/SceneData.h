@@ -45,7 +45,7 @@ class SceneData {
     SampleStrategy sample_strat;
     int num_samples_jitter;
 
-    /// Make a new SceneData object with the required default values
+    /// Make a new SceneData object with reasonable default values
     SceneData();
 };
 #endif

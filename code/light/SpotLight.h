@@ -11,6 +11,8 @@
 #include "geom/HitInfo.h"
 #include "spatial/Scene.h"
 
+/// A spot light source
+/// Models a light source like a desk lamp or Luxo Jr.
 class SpotLight : public Light {
   private:
     Point3 pos_;
@@ -32,10 +34,9 @@ class SpotLight : public Light {
     float StartFallAngle() const { return start_fall_angle_; }
     float EndFallAngle() const { return end_fall_angle_; }
 
-    /// Compute the color contribution of this spot light at a point of intersection
     Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 
-    /// Computes the intensity of this spot light at the specified distance
+    /// Compute the intensity of this spot light at the specified distance
     /// and angle
     Intensity IntensityAt(float dist, float angle) const;
 };

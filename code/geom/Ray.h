@@ -9,7 +9,7 @@
 class Ray {
   private:
     Point3 start_;
-    // _Unit_ vector indicating direction of ray
+    // *Unit* vector indicating direction of ray
     Vector3 dir_;
   
   public:
@@ -17,6 +17,8 @@ class Ray {
     Ray(const Point3& start, const Vector3& dir);
 
     Point3 Start() const { return start_; }
+
+    /// Get the *unit* vector indicating the direction of the ray
     Vector3 Dir() const { return dir_; }
 
     /// Find a point on the ray at time t with the equation start + t * dir,
