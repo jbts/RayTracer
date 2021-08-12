@@ -20,16 +20,14 @@
 #include "light/Light.h"
 #include "spatial/Scene.h"
 
-// How long to wait between progress updates for tracing in % done
-const float trace_update_spacing = 20.0f;
-
 void PrintHelpMsg() {
   std::cout << "usage: ./ray [options] filename\n"
             << "  filename is the path to a scene file to trace\n"
             << "  Options:\n"
             << "  -h, --help          output this help message and exit\n"
             << "  -s, --silent        don't output any log messages\n"
-            << "  -v, --verbose       output lots of log and debug messages\n";
+            << "  -v, --verbose       output lots of log and debug messages\n"
+            << "  --update-freq n     update on program progress every n%\n";
 }
 
 int main(int argc, char* argv[]) {
@@ -38,6 +36,9 @@ int main(int argc, char* argv[]) {
   // Process command-line args, skip argv[0] because it's the program name
   std::string infile = "";
   bool found_input_file = false;
+  // How long to wait between progress updates in % done
+  float trace_update_spacing = 20.0f;
+
   for (int i = 1; i < argc; i++) {
     if (strcmp("--silent", argv[i]) == 0 || strcmp("-s", argv[i]) == 0) {
       Log::SetLevel(LOG_LEVEL_NONE);
@@ -48,6 +49,21 @@ int main(int argc, char* argv[]) {
     }
     else if (strcmp("--verbose", argv[i]) == 0 || strcmp("-v", argv[i]) == 0) {
       Log::SetLevel(LOG_LEVEL_ALL);
+    }
+    else if (strcmp("--update-freq", argv[i]) == 0) {
+      if (i + 1 >= argc) {
+        PrintHelpMsg();
+        exit(1);
+      }
+      try {
+        trace_update_spacing = std::stof(argv[i+1]);
+      }
+      catch (...) {
+        PrintHelpMsg();
+        exit(1);
+      }
+      // Consumed 2 strings
+      i++;
     }
     else {
       infile = std::string(argv[i]);
