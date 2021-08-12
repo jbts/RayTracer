@@ -22,6 +22,10 @@ struct ParseError {
   }
 };
 
+/// A parser that takes in a scene file and creates a SceneData object for
+/// use by the rest of the program
+///
+/// Errors encountered during parsing are often handled by throwing a ParseError
 class Parser {
   private:
     std::string delim_;
