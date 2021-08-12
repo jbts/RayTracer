@@ -23,12 +23,10 @@ class PointLight : public Light {
     Point3 Pos() const { return pos_; }
     Intensity GetIntensity() const { return i_; }
 
-    /// Compute the color contribution of this point light at a point of intersection
     Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 
     /// Compute the intensity of this light at the specified distance
-    /// In the real world, these lights fall off as 1/(dist^2)
-    /// This function computes the fall off as 1/dist instead
+    /// The intensity of a point light falls off as dist^2
     Intensity IntensityAtDistance(float dist) const;
 };
 

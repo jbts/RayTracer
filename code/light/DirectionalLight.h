@@ -25,7 +25,6 @@ class DirectionalLight : public Light {
     Vector3 Dir() const { return dir_; }
     Intensity GetIntensity() const { return i_; }
 
-    /// Compute the color contribution of this directional light at a point of intersection
     Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const override;
 };
 

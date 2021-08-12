@@ -8,9 +8,7 @@
 #include "geom/HitInfo.h"
 #include "spatial/Scene.h"
 
-/// An ABSTRACT base light class representing a generic light in the scene
-/// Specific types of lights will inherit off this class and implement
-/// ComputeLighting()
+/// An abstract base light class representing a generic light in the scene
 class Light {
   private:
 
@@ -25,7 +23,7 @@ class Light {
 
     /// Compute the color contribution of this light based on the viewing ray, intersection info, and scene data
     /// A pure virtual function that must be implemented by children
-    /// depth_left is a bound on the number of recursive calls allowed: each recursive call should subtract 1 from depth_left
+    /// depth_left is a bound on the number of recursive calls allowed. Each recursive call should subtract 1 from depth_left.
     virtual Color ComputeLighting(const Ray& ray, const HitInfo& hit_info, const Scene& scene, int depth_left) const = 0;
 };
 
