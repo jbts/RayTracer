@@ -5,13 +5,16 @@
 #include "geom/HitInfo.h"
 #include "geom/Ray.h"
 
+/// Represents an intermediate node in the BVH, which has two child BVHNodes
+///
+/// All of the primitives that are contained in children of this node are
+/// contained in the axis-aligned bounding box for this node
 class BVHBoundingNode : public BVHNode {
   private:
     BVHNode* left_child_;
     BVHNode* right_child_;
 
-    /// These corners represent the bounding box, which
-    /// is axis-aligned
+    // These corners represent the bounding box, which is axis-aligned
     Point3 min_corner_;
     Point3 max_corner_;
   public:

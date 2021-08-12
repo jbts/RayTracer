@@ -1,9 +1,11 @@
 #ifndef SPATIAL_XYZBOUNDS_H_
 #define SPATIAL_XYZBOUNDS_H_
 
-/// Represents bounds in x, y, and z for a sphere or triangle
-/// They don't need to be exact, the primitive just needs to be completely
-/// contained inside the bounds
+/// Represents bounds in x, y, and z for a Primitive
+///
+/// The bounds don't need to be exact, but the primitive must be completely
+/// contained inside the bounds. More precise bounds tend to be more efficient.
+///
 /// Used for constructing a BVH
 class XYZBounds {
   private:
