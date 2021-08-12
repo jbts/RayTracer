@@ -7,7 +7,7 @@
 #include "core/Color.h"
 
 /// For holding and manipulating image data
-/// Heavily based on Dr. Guy's implementation for hw3
+/// Originally based on Dr. Guy's implementation for hw3
 class Image {
   private:
     int width_;
