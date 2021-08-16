@@ -70,7 +70,7 @@ void Image::Write(const std::string& filename) const {
   }
 
   std::string ext = filename.substr(dot_index);
-  for (int i = 0; i < ext.length(); i++) {
+  for (size_t i = 0; i < ext.length(); i++) {
     ext.at(i) = tolower(ext.at(i));
   }
 

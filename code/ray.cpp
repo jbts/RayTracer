@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
 
   int num_rays = 0;
 
-  for (int i = 0; i < trace_data_list.size(); i++) {
+  for (size_t i = 0; i < trace_data_list.size(); i++) {
     num_rays += trace_data_list.at(i).Targets().size();
   }
 
