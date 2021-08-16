@@ -24,9 +24,6 @@ class Color {
 /// Clamp a color component to the range [0,1]
 float ColorCompClamp(float comp);
 
-/// Linearly interpolate between two colors
-Color ColorLerp(const Color& start, const Color& target, float t);
-
 /// Add two colors in a component-wise fashion
 Color operator+(const Color& c, const Color& d);
 

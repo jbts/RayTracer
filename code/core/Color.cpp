@@ -18,14 +18,6 @@ float ColorCompClamp(float comp) {
   return comp;
 }
 
-Color ColorLerp(const Color& start, const Color& target, float t) {
-  float new_r = start.R() * (1 - t) + target.R() * t;
-  float new_g = start.G() * (1 - t) + target.G() * t;
-  float new_b = start.B() * (1 - t) + target.B() * t;
-
-  return Color(new_r, new_g, new_b);
-}
-
 Color operator+(const Color& c, const Color& d) {
   return Color(c.R()+d.R(), c.G()+d.G(), c.B()+d.B());
 }
