@@ -168,15 +168,13 @@ int main(int argc, char* argv[]) {
 
       status_update_mutex.lock();
       rays_traced++;
-      status_update_mutex.unlock();
 
       float percent_done = (rays_traced / (float)num_rays) * 100;
       if (percent_done >= last_update + trace_update_spacing) {
-        status_update_mutex.lock();
         Log::Info("tracing update - " + std::to_string(rays_traced) + "/" + std::to_string(num_rays) + " rays traced (~" + std::to_string(int(percent_done)) + "%)");
         last_update = percent_done;
-        status_update_mutex.unlock();
       }
+      status_update_mutex.unlock();
     }
 
     img.SetPixel(trace_data.X(), trace_data.Y(), pixel_color);
