@@ -13,7 +13,7 @@ axis-aligned boxes.
 
 I learned about this method from three webpages and papers:
 - [https://tavianator.com/2011/ray_box.html](https://tavianator.com/2011/ray_box.html)
-- [www.jcgt.org/published/0007/03/04/paper-lowres.pdf](www.jcgt.org/published/0007/03/04/paper_lowres.pdf)
+- [http://www.jcgt.org/published/0007/03/04/paper-lowres.pdf](www.jcgt.org/published/0007/03/04/paper_lowres.pdf)
 - [https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-box-intersection](https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-box-intersection)
 
 ## Tone Mapping, HDR, and Bloom
