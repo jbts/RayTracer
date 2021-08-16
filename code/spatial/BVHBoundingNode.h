@@ -27,7 +27,7 @@ class BVHBoundingNode : public BVHNode {
     /// I learned about this method from these three webpages/papers:
     /// https://tavianator.com/2011/ray_box.html
     /// 
-    /// www.jcgt.org/published/0007/03/04/paper_lowres.pdf
+    /// http://www.jcgt.org/published/0007/03/04/paper-lowres.pdf
     ///
     /// https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-box-intersection
     ///
