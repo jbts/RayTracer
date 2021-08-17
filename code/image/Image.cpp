@@ -49,7 +49,7 @@ Image* Image::Copy() const {
   return new Image(*this);
 }
 
-void Image::Write(const std::string& filename) const {
+void Image::Write(const std::string& filename) {
   // Do some sanity checks on the length of filename
   // Shortest filename allowed is something like a.png
   if (filename.length() < 5) {
@@ -119,25 +119,14 @@ void Image::SetPixel(int x, int y, const Color& c) {
   pixels_[y * width_ + x] = c;
 }
 
-uint8_t* Image::AsBytes() const {
+uint8_t* Image::AsBytes() {
+  ApplyToneMaps();
+
   uint8_t* data = new uint8_t[4 * width_ * height_];
 
-  ImageInfo img_info;
-  img_info.avg_lum = AvgLum();
-  
   for (int y = 0; y < height_; y++) {
     for (int x = 0; x < width_; x++) {
       Color c = pixels_[y * width_ + x];
-
-      // If there are no specified tone maps, default to a basic clamp
-      if (tone_maps_.empty()) {
-        c = ToneMapBasicClamp().ApplyMap(c, img_info);
-      }
-      else {
-        for (ToneMap* tone_map : tone_maps_) {
-          c = tone_map->ApplyMap(c, img_info);
-        }
-      }
 
       data[4 * (y * width_ + x)] = uint8_t(c.R() * 255 + 0.5);
       data[4 * (y * width_ + x) + 1] = uint8_t(c.G() * 255 + 0.5);
@@ -164,4 +153,34 @@ float Image::AvgLum() const {
   }
 
   return total_lum / num_pixels;
+}
+
+void Image::ApplyToneMaps() {
+  // If there aren't any specified tone maps, then just apply a basic clamp
+  if (tone_maps_.empty()) {
+    ImageInfo img_info;
+    img_info.avg_lum = AvgLum();
+
+    ToneMapBasicClamp map_clamp;
+
+    for (int x = 0; x < width_; x++) {
+      for (int y = 0; y < height_; y++) {
+        pixels_[y * width_ + x] = map_clamp.ApplyMap(pixels_[y * width_ + x], img_info);
+      }
+    }
+
+    return;
+  }
+
+  // There are specified tone maps, so apply them in order
+  for (ToneMap* tone_map : tone_maps_) {
+    ImageInfo img_info;
+    img_info.avg_lum = AvgLum();
+
+    for (int x = 0; x < width_; x++) {
+      for (int y = 0; y < height_; y++) {
+        pixels_[y * width_ + x] = tone_map->ApplyMap(pixels_[y * width_ + x], img_info);
+      }
+    }
+  }
 }

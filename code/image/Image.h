@@ -18,6 +18,8 @@ class Image {
 
     std::vector<ToneMap*> tone_maps_;
 
+    void ApplyToneMaps();
+
   public:
     Image(const SceneData& sdata);
     Image(const Image& cpy);
@@ -31,7 +33,7 @@ class Image {
     /// Write the image to a file, using the stb_image_write library
     /// The format to write the image in is inferred from its extension
     /// Supported extensions: .jpeg/.jpg, .png, .tga/.targa, .bmp
-    void Write(const std::string& filename) const;
+    void Write(const std::string& filename);
 
     int Width() const { return width_; }
     int Height() const { return height_; }
@@ -43,7 +45,7 @@ class Image {
     /// Each pixel is represented as 4 consecutive uint8_t's
     /// in the range [0, 255], for RGBA
     /// Returns a pointer to a dynamically allocated list of bytes
-    uint8_t* AsBytes() const;
+    uint8_t* AsBytes();
 
     /// Get the average luminance of the samples in this image
     float AvgLum() const;
