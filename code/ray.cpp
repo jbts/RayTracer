@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 
   Log::Info("making image of size " + std::to_string(sdata.film_width) + " by " + std::to_string(sdata.film_height));
   // Color all the pixels with the background color at first
-  Image img(sdata.film_width, sdata.film_height);
+  Image img(sdata);
    for (int y = 0; y < img.Height(); y++) {
     for (int x = 0; x < img.Width(); x++) {
       img.SetPixel(x, y, sdata.background_color);

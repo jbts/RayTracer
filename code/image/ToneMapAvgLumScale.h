@@ -5,7 +5,7 @@
 
 #include "core/Color.h"
 
-class ToneMapAvgLumScale : ToneMap {
+class ToneMapAvgLumScale : public ToneMap {
   private:
     float alpha_;
   

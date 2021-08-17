@@ -4,7 +4,7 @@
 #include "image/ToneMap.h"
 #include "core/Color.h"
 
-class ToneMapBasicClamp : ToneMap {
+class ToneMapBasicClamp : public ToneMap {
   public:
     Color ApplyMap(const Color& c, const ImageInfo& img_info) const override;
 };

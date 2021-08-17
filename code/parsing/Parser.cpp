@@ -15,6 +15,12 @@
 #include "geom/NormalTriangle.h"
 #include "geom/Circle.h"
 #include "geom/Ellipse.h"
+#include "image/ToneMap.h"
+#include "image/ToneMapBasicClamp.h"
+#include "image/ToneMapAvgLumScale.h"
+#include "image/ToneMapModifyRed.h"
+#include "image/ToneMapModifyGreen.h"
+#include "image/ToneMapModifyBlue.h"
 #include "parsing/SceneData.h"
 
 char* Parser::NextToken() {
@@ -344,6 +350,39 @@ SceneData Parser::ParseFile(const std::string& filename) {
         sdata.num_samples_jitter = std::max(1, n);
 
         Log::Debug("parsed sample strategy jittered with " + std::to_string(sdata.num_samples_jitter) + " samples per pixel");
+      }
+      // tm_basic_clamp
+      else if (strcmp("tm_basic_clamp", tok) == 0) {
+        sdata.tone_maps.push_back(new ToneMapBasicClamp());
+        Log::Debug("parsed a basic clamp tone map");
+      }
+      // tm_avg_lum_scale: alpha
+      else if (strcmp("tm_avg_lum_scale:", tok) == 0) {
+        float alpha = NextTokenAsFloat(lineno);
+
+        sdata.tone_maps.push_back(new ToneMapAvgLumScale(alpha));
+        Log::Debug("parsed an average luminance scale tone map");
+      }
+      // tm_modify_red: s
+      else if (strcmp("tm_modify_red:", tok) == 0) {
+        float s = NextTokenAsFloat(lineno);
+
+        sdata.tone_maps.push_back(new ToneMapModifyRed(s));
+        Log::Debug("parsed a modify red tone map");
+      }
+      // tm_modify_green: s
+      else if (strcmp("tm_modify_green:", tok) == 0) {
+        float s = NextTokenAsFloat(lineno);
+
+        sdata.tone_maps.push_back(new ToneMapModifyGreen(s));
+        Log::Debug("parsed a modify green tone map");
+      }
+      // tm_modify_blue: s
+      else if (strcmp("tm_modify_blue:", tok) == 0) {
+        float s = NextTokenAsFloat(lineno);
+
+        sdata.tone_maps.push_back(new ToneMapModifyBlue(s));
+        Log::Debug("parsed a modify blue tone map");
       }
       // unrecognized command
       else {

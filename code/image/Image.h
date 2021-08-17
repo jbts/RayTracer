@@ -5,6 +5,8 @@
 #include <string>
 
 #include "core/Color.h"
+#include "parsing/SceneData.h"
+#include "image/ToneMap.h"
 
 /// For holding and manipulating image data
 /// Originally based on Dr. Guy's implementation for hw3
@@ -14,8 +16,10 @@ class Image {
     int height_;
     Color* pixels_;
 
+    std::vector<ToneMap*> tone_maps_;
+
   public:
-    Image(int width, int height);
+    Image(const SceneData& sdata);
     Image(const Image& cpy);
     ~Image();
     Image& operator=(const Image& rhs);

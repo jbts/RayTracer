@@ -4,7 +4,7 @@
 #include "image/ToneMap.h"
 #include "core/Color.h"
 
-class ToneMapModifyGreen : ToneMap {
+class ToneMapModifyGreen : public ToneMap {
   private:
     float s_;
   

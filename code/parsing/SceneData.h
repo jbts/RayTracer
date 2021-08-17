@@ -10,6 +10,7 @@
 #include "geom/Sphere.h"
 #include "light/Light.h"
 #include "raygen/ViewFrame.h"
+#include "image/ToneMap.h"
 
 /// Holds lots of data about the structure of a scene
 /// Includes camera position and orientation, locations
@@ -45,6 +46,9 @@ class SceneData {
     SampleStrategy sample_strat;
     int num_samples_jitter;
 
+    // Tone mapping / post-processing data
+    std::vector<ToneMap*> tone_maps;
+    
     /// Make a new SceneData object with reasonable default values
     SceneData();
 };
