@@ -3,8 +3,17 @@
 
 #include "core/Color.h"
 
-  Color ToneMapBasicClamp(const Color& c);
+/// Contains information about the image as a whole
+struct ImageInfo {
+  // The average luminance of the image
+  float avg_lum;
+};
 
-  Color ToneMapAvgLumScale(const Color& c, float avg_lum, float alpha);
+/// Interface that all tone maps must implement
+class ToneMap {
+  public:
+    virtual ~ToneMap() {}
+    virtual Color ApplyMap(const Color& c, const ImageInfo& img_info) const = 0;
+};
 
 #endif
