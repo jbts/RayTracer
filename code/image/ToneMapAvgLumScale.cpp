@@ -1,5 +1,6 @@
 #include "image/ToneMapAvgLumScale.h"
 
+#include "image/ToneMap.h"
 #include "core/Color.h"
 
 Color ToneMapAvgLumScale::ApplyMap(const Color& c, const ImageInfo& img_info) const {

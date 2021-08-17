@@ -1,5 +1,6 @@
 #include "image/ToneMapBasicClamp.h"
 
+#include "image/ToneMap.h"
 #include "core/Color.h"
 
 Color ToneMapBasicClamp::ApplyMap(const Color& c, const ImageInfo& img_info) const {
