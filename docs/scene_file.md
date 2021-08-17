@@ -10,7 +10,7 @@ A scene file can contain any number of lines, each of which may be
 - a line starting with '#', which is comment and ignored by the parser
 - one of the commands below, which is parsed and applied by the parser
 
-Each command starts with a keyword, like `film_resolution`, followed by a colon
+Each command starts with a keyword, like `film_resolution`, often followed by a colon
 `:` and a list of arguments. A particular keyword always takes the same number
 and type of arguments.
 
@@ -111,3 +111,53 @@ Adds a directional light to the scene that shines in direction `(dx, dy, dz)` wi
 #### `spot_light: r g b x y z dx dy dz angle1 angle2`
 
 Adds a spot light to the scene at position `(x, y, z)` with intensity `(r, g, b)`. The spot light points in the direction `(dx, dy, dz)`. Spot lights are similar to point lights. They shine from a position outward and their intensity falls off with the square of the distance from their position. But they also shine in a particular direction, and their intensity falls off as the angle from this direction grows. Up until `angle1`, the intensity is not modified by the angle. From `angle1` to `angle2`, the intensity falls off smoothly, until at angles greater than or equal to `angle2` the intensity is 0. Think of a desk lamp, flashlight, or Luxo Jr. from the Pixar short.
+
+## Tone Maps
+
+A tone map is a post-processing map applied to the image before it's written to the
+output file. This allows the scene file to specify how the colors in the image
+should be adjusted before they're written to the output file.
+
+Colors in the program aren't clamped to a particular range, so tone maps allow the
+colors to be transformed to the range `[0;1]` in different ways before they're
+written.
+
+By default, the program applies a single tone map that just clamps each color
+component of each pixel to the range `[0;1]`. If the scene file specifies one or
+more tone maps with one of the following commands, then exactly those tone maps
+are applied in the order they are listed in the scene file (and in this case there is no
+clamping by default, so the scene file must use the command `tm_basic_clamp`
+explicitly if clamping is desired).
+
+#### `tm_basic_clamp`
+
+Clamps each color component of each pixel to the range `[0;1]`. This is the default
+behavior of the program when no explicit tone maps are given.
+
+This tone map often comes last in a list of tone maps to apply, since it prevents
+overflow of colors when they're written to the file.
+
+Note that this tone map takes no arguments, so there's no trailing colon.
+
+#### `tm_modify_red: s`
+
+Multiplies each red color component of each pixel by the factor `s`.
+
+#### `tm_modify_green: s`
+
+Multiplies each green color component of each pixel by the factor `s`.
+
+#### `tm_modify_blue: s`
+
+Multiplies each blue color component of each pixel by the factor `s`.
+
+#### `tm_avg_lum_scale: alpha`
+
+Calculates the average luminance `avg_lum` of the entire image, then multiplies each
+pixel in the image by the value `alpha / avg_lum`.
+
+If `alpha = avg_lum`, then this operation does nothing. Lower values of `alpha`
+tend to dim the image, and higher values of `alpha` tend to brighten it. This is a
+good way to scale colors that have components outside of the `[0;1]` range so that
+less information is lost when the components are clamped to `[0;1]`. Often experimenting with the
+value of `alpha` can make the resulting image look better.
