@@ -181,9 +181,20 @@ int main(int argc, char* argv[]) {
     img.SetPixel(trace_data.X(), trace_data.Y(), pixel_color);
   }
 
+  
+  Log::Info("applying any post-processing image maps");
+  
+  // If there are no specified image maps, then just clamp the image to prevent overflow
+  if (sdata.image_maps.empty()) {
+    ImageMapBasicClamp().ApplyMap(img);
+  }
+  else {
+    for (ImageMap* image_map : sdata.image_maps) {
+      image_map->ApplyMap(img);
+    }
+  }
+
   Log::Info("writing result image to file " + sdata.output_image);
-  // First clamp the image to be [0;1] bounded to prevent overflow
-  ImageMapBasicClamp().ApplyMap(img);
   img.Write(sdata.output_image);
 
   return 0;
