@@ -4,7 +4,6 @@
 #include <cctype> // for tolower()
 
 #include "stb_image/stb_image_write.h"
-#include "image/ToneMap.h"
 #include "logging/Log.h"
 
 Image::Image(int width, int height) {
@@ -122,7 +121,7 @@ uint8_t* Image::AsBytes() const {
   for (int y = 0; y < height_; y++) {
     for (int x = 0; x < width_; x++) {
       Color c = pixels_[y * width_ + x];
-      c = ToneMapBasicClamp(c);
+      
       data[4 * (y * width_ + x)] = uint8_t(c.R() * 255 + 0.5);
       data[4 * (y * width_ + x) + 1] = uint8_t(c.G() * 255 + 0.5);
       data[4 * (y * width_ + x) + 2] = uint8_t(c.B() * 255 + 0.5);

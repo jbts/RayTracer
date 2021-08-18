@@ -19,6 +19,7 @@
 #include "geom/Ray.h"
 #include "light/Light.h"
 #include "spatial/Scene.h"
+#include "imagemap/ImageMapBasicClamp.h"
 
 void PrintHelpMsg() {
   std::cout << "usage: ./ray [options] filename\n"
@@ -181,6 +182,8 @@ int main(int argc, char* argv[]) {
   }
 
   Log::Info("writing result image to file " + sdata.output_image);
+  // First clamp the image to be [0;1] bounded to prevent overflow
+  ImageMapBasicClamp().ApplyMap(img);
   img.Write(sdata.output_image);
 
   return 0;
