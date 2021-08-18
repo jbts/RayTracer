@@ -131,8 +131,12 @@ Adds an image map that clamps each color component of each pixel in the image to
 
 If no image maps are specified in the scene file, this is the default behavior.
 
+Note that this command doesn't take any arguments, so there's no trailing colon.
+
 #### `im_nop`
 
 Adds an image map that does nothing. Useful for preventing the default behavior of clamping.
 If you want the final image to be written without any post-processing or clamping, use this
 command to add a single `im_nop` image map to the scene.
+
+Note that this command doesn't take any arguments, so there's no trailing colon.
