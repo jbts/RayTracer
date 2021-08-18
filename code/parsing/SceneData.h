@@ -10,6 +10,7 @@
 #include "geom/Sphere.h"
 #include "light/Light.h"
 #include "raygen/ViewFrame.h"
+#include "imagemap/ImageMap.h"
 
 /// Holds lots of data about the structure of a scene
 /// Includes camera position and orientation, locations
@@ -44,6 +45,9 @@ class SceneData {
     // Ray generation data
     SampleStrategy sample_strat;
     int num_samples_jitter;
+
+    // Image maps (or "filters") to apply to the image before writing it
+    std::vector<ImageMap*> image_maps;
 
     /// Make a new SceneData object with reasonable default values
     SceneData();

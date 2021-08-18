@@ -16,6 +16,8 @@
 #include "geom/Circle.h"
 #include "geom/Ellipse.h"
 #include "parsing/SceneData.h"
+#include "imagemap/ImageMapBasicClamp.h"
+#include "imagemap/ImageMapNop.h"
 
 char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
@@ -344,6 +346,18 @@ SceneData Parser::ParseFile(const std::string& filename) {
         sdata.num_samples_jitter = std::max(1, n);
 
         Log::Debug("parsed sample strategy jittered with " + std::to_string(sdata.num_samples_jitter) + " samples per pixel");
+      }
+      // im_basic_clamp
+      else if (strcmp("im_basic_clamp", tok) == 0) {
+        sdata.image_maps.push_back(new ImageMapBasicClamp());
+
+        Log::Debug("parsed a basic clamp image map");
+      }
+      // im_nop
+      else if (strcmp("im_nop", tok) == 0) {
+        sdata.image_maps.push_back(new ImageMapNop());
+
+        Log::Debug("parsed a nop image map");
       }
       // unrecognized command
       else {

@@ -21,6 +21,7 @@ add_subdirectory(image)
 add_subdirectory(logging)
 add_subdirectory(raygen)
 add_subdirectory(spatial)
+add_subdirectory(imagemap)
 
 # From
 # https://cliutils.gitlab.io/modern-cmake/chapters/packages/OpenMP.html
@@ -40,6 +41,7 @@ target_include_directories(ray PUBLIC
                            ${CODE_DIR}/logging
                            ${CODE_DIR}/raygen
                            ${CODE_DIR}/spatial
+                           ${CODE_DIR}/imagemap
 )
 
-target_link_libraries(ray PUBLIC core geom light parsing logging image raygen spatial)
+target_link_libraries(ray PUBLIC core geom light parsing logging image raygen spatial imagemap)

@@ -28,4 +28,6 @@ SceneData::SceneData() {
 
   sample_strat = SAMPLE_STRATEGY_BASIC;
   num_samples_jitter = 5;
+
+  image_maps = std::vector<ImageMap*>();
 }
