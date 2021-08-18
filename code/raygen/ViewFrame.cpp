@@ -9,6 +9,11 @@
 #include "logging/Log.h"
 #include "raygen/PixelTraceData.h"
 
+// Some <cmath> implementations define this constant, some don't
+#ifndef M_PI
+constexpr double M_PI = 3.1415926535897932384626;
+#endif
+
 float ViewFrame::EyeToFrameDistance() const {
   // Solving the equation tan(half_angle_fov_) = (height_ / 2) / distance
   return (float)height_ / (2 * tanf(half_angle_fov_ * M_PI / 180.0));
