@@ -10,7 +10,7 @@ A scene file can contain any number of lines, each of which may be
 - a line starting with '#', which is comment and ignored by the parser
 - one of the commands below, which is parsed and applied by the parser
 
-Each command starts with a keyword, like `film_resolution`, followed by a colon
+Each command starts with a keyword, like `film_resolution`, often followed by a colon
 `:` and a list of arguments. A particular keyword always takes the same number
 and type of arguments.
 
@@ -111,3 +111,28 @@ Adds a directional light to the scene that shines in direction `(dx, dy, dz)` wi
 #### `spot_light: r g b x y z dx dy dz angle1 angle2`
 
 Adds a spot light to the scene at position `(x, y, z)` with intensity `(r, g, b)`. The spot light points in the direction `(dx, dy, dz)`. Spot lights are similar to point lights. They shine from a position outward and their intensity falls off with the square of the distance from their position. But they also shine in a particular direction, and their intensity falls off as the angle from this direction grows. Up until `angle1`, the intensity is not modified by the angle. From `angle1` to `angle2`, the intensity falls off smoothly, until at angles greater than or equal to `angle2` the intensity is 0. Think of a desk lamp, flashlight, or Luxo Jr. from the Pixar short.
+
+## Image Maps
+
+An image map is a filter applied to the image before it's written to the output file. These filters
+can be *tone maps*, which map from HDR colors to colors bounded between 0 and 1, or more general
+filters which apply special effects.
+
+Each of the following commands adds an image map to the list maintained by the tracer. Before the
+final image is written, each image map in the list is applied in order. If the image map list is
+empty, then the program applies an `im_basic_clamp` image map to prevent overflow. If you'd like
+your image to not even be clamped, then use the `im_nop` command to add an image map that does
+nothing to the image map list.
+
+#### `im_basic_clamp`
+
+Adds an image map that clamps each color component of each pixel in the image to the range
+`[0;1]`. Useful for preventing color overflow.
+
+If no image maps are specified in the scene file, this is the default behavior.
+
+#### `im_nop`
+
+Adds an image map that does nothing. Useful for preventing the default behavior of clamping.
+If you want the final image to be written without any post-processing or clamping, use this
+command to add a single `im_nop` image map to the scene.
