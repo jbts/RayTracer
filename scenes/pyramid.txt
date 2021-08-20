@@ -1,6 +1,10 @@
 output_image: pyramid.jpg
 film_resolution: 1024 768
 
+# The actual image is really bright, so let's use a tone map to dim it a bit
+im_avg_lum_scale: 0.4
+im_basic_clamp
+
 camera_fwd: -1 0 0
 camera_up: 0 1 0
 camera_pos: -3 1 0

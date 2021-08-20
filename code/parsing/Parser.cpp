@@ -18,6 +18,7 @@
 #include "parsing/SceneData.h"
 #include "imagemap/ImageMapBasicClamp.h"
 #include "imagemap/ImageMapNop.h"
+#include "imagemap/ImageMapAvgLumScale.h"
 
 char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
@@ -358,6 +359,13 @@ SceneData Parser::ParseFile(const std::string& filename) {
         sdata.image_maps.push_back(new ImageMapNop());
 
         Log::Debug("parsed a nop image map");
+      }
+      // im_avg_lum_scale: factor
+      else if (strcmp("im_avg_lum_scale:", tok) == 0) {
+        float factor = NextTokenAsFloat(lineno);
+        sdata.image_maps.push_back(new ImageMapAvgLumScale(factor));
+
+        Log::Debug("parsed an average luminance scale image map");
       }
       // unrecognized command
       else {
