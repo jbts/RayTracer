@@ -19,6 +19,7 @@
 #include "imagemap/ImageMapBasicClamp.h"
 #include "imagemap/ImageMapNop.h"
 #include "imagemap/ImageMapAvgLumScale.h"
+#include "imagemap/ImageMapReinhardGlobal.h"
 
 char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
@@ -366,6 +367,13 @@ SceneData Parser::ParseFile(const std::string& filename) {
         sdata.image_maps.push_back(new ImageMapAvgLumScale(factor));
 
         Log::Debug("parsed an average luminance scale image map");
+      }
+      // im_reinhard_global: lumwhite
+      else if (strcmp("im_reinhard_global:", tok) == 0) {
+        float lumwhite = NextTokenAsFloat(lineno);
+        sdata.image_maps.push_back(new ImageMapReinhardGlobal(lumwhite));
+        
+        Log::Debug("parsed a Reinhard global image map");
       }
       // unrecognized command
       else {
