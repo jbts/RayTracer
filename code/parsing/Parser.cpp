@@ -20,6 +20,7 @@
 #include "imagemap/ImageMapNop.h"
 #include "imagemap/ImageMapAvgLumScale.h"
 #include "imagemap/ImageMapReinhardGlobal.h"
+#include "imagemap/ImageMapReinhardLocal.h"
 
 char* Parser::NextToken() {
   return strtok(nullptr, delim_.c_str());
@@ -374,6 +375,16 @@ SceneData Parser::ParseFile(const std::string& filename) {
         sdata.image_maps.push_back(new ImageMapReinhardGlobal(lumwhite));
         
         Log::Debug("parsed a Reinhard global image map");
+      }
+      // im_reinhard_local: a phi epsilon
+      else if (strcmp("im_reinhard_local:", tok) == 0) {
+        float a = NextTokenAsFloat(lineno);
+        float phi = NextTokenAsFloat(lineno);
+        float epsilon = NextTokenAsFloat(lineno);
+
+        sdata.image_maps.push_back(new ImageMapReinhardLocal(a, phi, epsilon));
+
+        Log::Debug("parsed a Reinhard local image map");
       }
       // unrecognized command
       else {

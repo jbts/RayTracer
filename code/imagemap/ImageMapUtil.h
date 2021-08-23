@@ -21,6 +21,32 @@ namespace ImageMapUtil {
   ///
   /// The array is dynamically allocated
   float* Luminances(const Image& img);
+
+  /// Reflects an integer index back into the interval [min, max]
+  /// Clamps the resulting index so that it always lies in the interval [min, max],
+  /// even if the reflection would put it outside the interval
+  int ReflectIndex(int index, int min, int max);
+
+  /// Clamp a value of type T to the interval [min, max]
+  /// Returns value if min <= value <= max
+  /// If value < min, then returns min
+  /// If value > max, then returns max
+  template <typename T>
+  T Clamp(T value, T min, T max) {
+    if (value < min) return min;
+    if (value > max) return max;
+    return value;
+  }
+
+  /// Returns a dynamically allocated array that is the result of convolving the
+  /// given 1D filter horizontally with the 2D array values of dimensions width and height
+  /// Edges are handled by reflecting indices with ReflectIndex()
+  float* ConvolveFilterHorizontal(const float* const values, int width, int height, const float* const filter, int filter_size);
+
+  /// Returns a dynamically allocated array that is the result of convolving the
+  /// given 1D filter vertically with the 2D array values of dimensions width and height
+  /// Edges are handled by reflecting indices with ReflectIndex()
+  float* ConvolveFilterVertical(const float* const values, int width, int height, const float* const filter, int filter_size);
 };
 
 #endif
