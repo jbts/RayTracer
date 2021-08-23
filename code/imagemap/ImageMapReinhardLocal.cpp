@@ -58,6 +58,18 @@ void ImageMapReinhardLocal::ApplyMap(Image& img) const {
       img.SetPixel(x, y, c * (1.0f / denom));
     }
   }
+
+  // Free memory
+  delete[] sm_indices;
+  sm_indices = nullptr;
+
+  for (int i = 0; i < max_index; i++) {
+    delete[] convolved_maps[i];
+    convolved_maps[i] = nullptr;
+  }
+
+  delete[] luminances;
+  luminances = nullptr;
 }
 
 float ImageMapReinhardLocal::ComputeSRaw(int n) const {
