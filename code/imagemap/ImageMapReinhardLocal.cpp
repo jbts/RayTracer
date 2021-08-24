@@ -35,15 +35,12 @@ void ImageMapReinhardLocal::ApplyMap(Image& img) const {
   int* sm_indices = new int [width * height];
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      int sm_index = s[0];
-      for (int i = 1; i < max_index - 1; i++) {
-        if (V(convolved_maps, width, height, x, y, i, s[i]) < epsilon_) {
-          sm_index = i;
-        }
-        else {
-          break;
-        }
+      int sm_index = 0;
+      
+      while (sm_index < max_index - 1 && V(convolved_maps, width, height, x, y, sm_index, s[sm_index]) < epsilon_) {
+        sm_index++;
       }
+
       sm_indices[y * width + x] = sm_index;
     }
   }
@@ -85,11 +82,18 @@ float ImageMapReinhardLocal::ComputeGaussian(float dx, float s) const {
 float* ImageMapReinhardLocal::ConvolveGaussian(float* luminances, int width, int height, int filter_size) const {
   float* filter = new float [filter_size];
   float filter_center = (filter_size - 1) / 2.0f;
-  
+  float filter_sum = 0.0f;
+
   for (int i = 0; i < filter_size; i++) {
     filter[i] = ComputeGaussian(fabs(i - filter_center), filter_size);
+    filter_sum += filter[i];
   }
 
+  // Normalize the filter so it sums to 1
+  for (int i = 0; i < filter_size; i++) {
+    filter[i] /= filter_sum;
+  }
+  
   // The Gaussian filter is separable, so convolve first in the horizontal
   // direction and then in the vertical direction
   float* convolve_horiz = ImageMapUtil::ConvolveFilterHorizontal(luminances, width, height, filter, filter_size);
@@ -99,7 +103,7 @@ float* ImageMapReinhardLocal::ConvolveGaussian(float* luminances, int width, int
   convolve_horiz = nullptr;
   delete[] filter;
   filter = nullptr;
-  
+
   return convolve_vert;
 }
 

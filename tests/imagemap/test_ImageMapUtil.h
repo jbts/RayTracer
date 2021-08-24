@@ -40,7 +40,67 @@ TEST_CASE("ReflectIndex") {
   REQUIRE(ReflectIndex(-20, 5, 10) == 10);
 }
 
-TEST_CASE("Horizontal filter convolution stress test") {
+TEST_CASE("Horizontal filter convolution correctness test") {
+  float filter[1] = {0.5f};
+  float values[4] = {1.0f, 1.0f, 0.0f, 0.4f};
+  int width = 1;
+  int height = 4;
+
+  float* convolved_values = ImageMapUtil::ConvolveFilterHorizontal(values, width, height, filter, 1);
+
+  REQUIRE(convolved_values[0] == Approx(0.5f));
+  REQUIRE(convolved_values[1] == Approx(0.5f));
+  REQUIRE(convolved_values[2] == Approx(0.0f));
+  REQUIRE(convolved_values[3] == Approx(0.2f));
+
+  float filter2[3] = {0.2f, 0.6f, 0.2f};
+  float values2[6] = {1.0f, 0.9f, 0.2f, 7.0f, 0.0f, 1.3f};
+  int width2 = 3;
+  int height2 = 2;
+
+  float* convolved_values2 = ImageMapUtil::ConvolveFilterHorizontal(values2, width2, height2, filter2, 3);
+
+  // Remember that the convolution reflects the image when the filter hangs off
+  // an edge
+  REQUIRE(convolved_values2[0] == Approx(0.96f));
+  REQUIRE(convolved_values2[1] == Approx(0.78f));
+  REQUIRE(convolved_values2[2] == Approx(0.48f));
+  REQUIRE(convolved_values2[3] == Approx(4.2f));
+  REQUIRE(convolved_values2[4] == Approx(1.66f));
+  REQUIRE(convolved_values2[5] == Approx(0.78f));
+}
+
+TEST_CASE("Vertical filter convolution correctness test") {
+  float filter[1] = {0.5f};
+  float values[4] = {1.0f, 1.0f, 0.0f, 0.4f};
+  int width = 1;
+  int height = 4;
+
+  float* convolved_values = ImageMapUtil::ConvolveFilterVertical(values, width, height, filter, 1);
+
+  REQUIRE(convolved_values[0] == Approx(0.5f));
+  REQUIRE(convolved_values[1] == Approx(0.5f));
+  REQUIRE(convolved_values[2] == Approx(0.0f));
+  REQUIRE(convolved_values[3] == Approx(0.2f));
+
+  float filter2[3] = {0.2f, 0.6f, 0.2f};
+  float values2[6] = {1.0f, 0.9f, 0.2f, 7.0f, 0.0f, 1.3f};
+  int width2 = 3;
+  int height2 = 2;
+
+  float* convolved_values2 = ImageMapUtil::ConvolveFilterVertical(values2, width2, height2, filter2, 3);
+
+  // Remember that the convolution reflects the image when the filter hangs off
+  // an edge
+  REQUIRE(convolved_values2[0] == Approx(3.4f));
+  REQUIRE(convolved_values2[1] == Approx(0.54f));
+  REQUIRE(convolved_values2[2] == Approx(0.64f));
+  REQUIRE(convolved_values2[3] == Approx(4.6f));
+  REQUIRE(convolved_values2[4] == Approx(0.36f));
+  REQUIRE(convolved_values2[5] == Approx(0.86f));
+}
+
+TEST_CASE("Horizontal filter convolution stress test", "[memory]") {
   float values[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   int width = 2;
   int height = 2;
@@ -58,7 +118,7 @@ TEST_CASE("Horizontal filter convolution stress test") {
   result = nullptr;
 }
 
-TEST_CASE("Vertical filter convolution stress test") {
+TEST_CASE("Vertical filter convolution stress test", "[memory]") {
   float values[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   int width = 2;
   int height = 2;
